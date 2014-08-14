@@ -1,0 +1,19 @@
+
+	{{ noparse }}
+<!-- #AND  page:parent_id != 0 -->
+{{ /noparse }}
+
+{{ if template:has_breadcrumbs }}
+    {{ if theme:options:show_breadcrumbs}}
+        <nav class="breadcrumbs">
+        {{ template:breadcrumbs }}
+			{{ if uri }}
+				{{ url:anchor segments=uri title=name}}
+		
+			{{ else }}
+								{{ url:anchor segments=uri title=name class="current"}}
+			{{ endif }}
+		{{ /template:breadcrumbs }}
+		</nav>
+	{{ endif }}
+{{ endif }}

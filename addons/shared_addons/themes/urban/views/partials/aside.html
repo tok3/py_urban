@@ -1,0 +1,12 @@
+{{ if  {navigation:links group="sidebar"}  !== '' OR  {widgets:area slug="sidebar"}  !== ''}}
+<aside class="hide-for-print">
+	{{ if  {navigation:links group="sidebar"} !== '' }}
+
+	<ul class="side-nav">
+		{{ navigation:links group="sidebar" }}
+	</ul>
+	{{ endif }}
+	{{ widgets:area slug="sidebar" }}
+</aside>
+{{ endif }}
+	

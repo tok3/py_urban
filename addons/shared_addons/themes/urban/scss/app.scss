@@ -1,0 +1,176 @@
+@import "settings";
+// "foundation";
+// "custom_orbit";
+@import "glyphicons";
+
+/*fancy buttons */
+@import "fancy_button";
+
+
+@import "footer";
+// Or selectively include components
+@import   "foundation/components/accordion",
+   "foundation/components/alert-boxes",
+   "foundation/components/block-grid",
+   "foundation/components/breadcrumbs",
+   "foundation/components/button-groups",
+   "foundation/components/buttons",
+   "foundation/components/clearing",
+   "foundation/components/dropdown",
+   "foundation/components/dropdown-buttons",
+   "foundation/components/flex-video",
+   "foundation/components/forms",
+   "foundation/components/grid",
+   "foundation/components/inline-lists",
+   "foundation/components/joyride",
+   "foundation/components/keystrokes",
+   "foundation/components/labels",
+   "foundation/components/magellan",
+   "foundation/components/orbit",
+   "foundation/components/pagination",
+   "foundation/components/panels",
+   "foundation/components/pricing-tables",
+   "foundation/components/progress-bars",
+   "foundation/components/reveal",
+   "foundation/components/side-nav",
+   "foundation/components/split-buttons",
+   "foundation/components/sub-nav",
+   "foundation/components/switch",
+   "foundation/components/tables",
+   "foundation/components/tabs",
+   "foundation/components/thumbs",
+   "foundation/components/tooltips",
+   "foundation/components/top-bar",
+   "foundation/components/type",
+   "foundation/components/offcanvas",
+   "foundation/components/visibility";
+body
+{
+	text-rendering: optimizelegibility;
+	
+}
+blockquote
+{
+	font-style:italic;
+	font-family: Georgia,Times,"Times New Roman",serif;
+	border-left-width: emCalc(5);
+	margin-left: emCalc(30);
+
+}
+header {
+/*
+	background: url("../img/logo.png") no-repeat scroll 0 0;
+	background-position: 120px;
+*/
+	padding: emCalc(0px 0);
+	background-color:#e5e9f0;
+text-align:boot
+}
+header h1, 
+header h4
+{
+	color:white !important;
+
+}
+
+.hcw header,
+.hcw footer {
+	padding-left: emCalc(12px);
+	padding-right: emCalc(12px);
+}
+#content
+{
+	
+	margin-top:emCalc(20px);
+  padding-bottom:emCalc(12px);
+}
+
+
+input[type=submit]
+{
+@extend .button;
+@extend .radius;
+}
+
+/*blog stuff*/
+.comment P 
+{
+
+  @extend .panel;
+@extend .radius;
+	padding:emCalc(5);
+	margin:emCalc(5 10 5 5);
+
+}  
+.comment H5,
+.comment H6  
+{
+display:inline;
+	margin:emCalc(0) !important;
+	padding:emCalc(0) !important;
+  
+}  
+.comment H5
+{
+	font-weight:400;
+}
+.comment > .columns
+{
+
+	padding:emCalc(5) !important;
+ 	
+
+}
+  .gravatar
+{
+width:emCalc(40);
+margin-top: emCalc(6);
+-webkit-border-radius: emCalc($global-radius);
+  border-radius: emCalc($global-radius);
+
+}
+
+.postHead
+{
+	
+font-weight:bold;
+margin-bottom:emCalc(10);
+}
+
+.keywords > .label
+{
+	
+	font-size:emCalc(13px);
+	padding: rem-calc(5 9 7);
+margin-bottom:emCalc(4px);
+}
+
+/*.pagination }*/
+
+div.pagination li.active span {
+    background: none repeat scroll 0 0 rgb(0, 140, 186);
+    color: rgb(255, 255, 255);
+    cursor: default;
+    font-weight: bold;
+}
+div.pagination li span {
+    border-radius: 3px;
+    color: rgb(153, 153, 153);
+    display: block;
+    padding: 0.0625rem 0.625rem;
+}
+
+/*aside */
+.aside UL
+{
+	@extend .side-nav;
+}
+
+
+.aside h3
+{
+
+}
+
+
+

@@ -1,0 +1,78 @@
+// footer 
+$footer-bg-color: $topbar-bg-color;
+$footer-border-color: invert($topbar-link-color);
+$footer-txt-shd-color:invert($topbar-link-color);
+
+FOOTER {
+	background: $topbar-bg-color;
+	border-top: emCalc(5px) solid rgba($footer-border-color, 0.1);
+	position: relative;
+	z-index: 99;
+	width: 100%;
+	padding: emCalc(0 0 0 0 );
+}
+
+
+footer h3 {
+	font-size: emCalc(16px);
+	text-transform: uppercase;
+	color: rgba($topbar-link-color, 0.8);
+	text-shadow: 0 -1px 0 rgba($footer-txt-shd-color, 0.8);
+}
+
+footer li, footer p, footer a {	
+	font-size: emCalc(14px);
+	font-style: normal;
+	font-weight: normal;
+	color: rgba($topbar-link-color, 0.4);
+	text-shadow: emCalc(0 -1px 0) rgba($footer-txt-shd-color, 0.8);
+}
+
+footer a {
+	color: rgba(255, 255, 255, 0.6);
+}
+footer a:hover {
+	
+	text-shadow: emCalc(0 -1px 0px) rgba($footer-txt-shd-color, 0.7);
+	color: rgba($topbar-link-color, 0.4);
+}	
+.fNavCol
+{
+	text-align:right;
+}
+.social
+{
+	padding-top: emCalc(5px);
+}
+@media only screen and (max-width: 640px) {
+	
+	.fSocialCol
+	{
+		
+		text-align:center;
+	}
+	.fNavCol	{
+		
+		text-align:center;
+		margin: 0 !important;
+		padding: 0!important;
+	}
+	FOOTER
+	{
+		float:right;	
+		@extend .text-center;
+	}
+	.social
+	{
+	
+		float: none;
+		margin: 0;
+		text-align: center;
+		display: inline-block;
+	}
+}
+footer .copyright
+{
+	padding-bottom: 0 !important;
+	margin-bottom: 0 !important;
+}

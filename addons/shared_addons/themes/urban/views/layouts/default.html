@@ -1,0 +1,40 @@
+{{ theme:partial name="header" }}
+<!-- content -->
+<section id="content">
+	<div class="row">
+		{{ if theme:options:show_breadcrumbs == 'yes' }}
+		<div class="large-12 columns">
+			{{ theme:partial name="breadcrumbs" }}
+		</div>
+		{{ endif }}
+
+		{{ if theme:options:has_sidebar == "true" }}
+		<div class="large-9 columns">
+			{{else}}
+			<div class="large-12 columns">
+				{{endif}}
+
+				
+
+				{{ if { url:segments segment="1" } == '' AND theme:options:orbit == 'yes' }}
+				<!-- orbit -->
+
+				{{ theme:partial name="orbit" }}
+				<!-- /orbit -->
+
+				{{ endif }}
+				{{ template:body }}
+			</div>
+			{{ if theme:options:has_sidebar == "true" }}
+			<div class="large-3 columns aside">
+				{{ theme:partial name="aside" }}
+			</div>
+			{{endif}}
+		</div>
+
+	</section>
+
+	<!-- /content -->
+
+	{{ theme:partial name="footer" }}
+

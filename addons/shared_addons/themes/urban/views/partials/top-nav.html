@@ -1,0 +1,53 @@
+
+<nav class="top-bar" data-topbar>
+
+	<ul class="title-area"> 
+		<li class="name">
+			<h1><a href="#">
+
+				{{ if theme:options:show_sitename == 'topbar' }}
+				{{ settings:site_name }}
+				{{ endif }}
+
+			</a></h1>
+		</li> 
+		<li class="toggle-topbar menu-icon">
+			<a href="#">Menu</a>
+		</li>
+	</ul> 
+
+	<section class="top-bar-section"> 
+		<!-- Right Nav Section --> 
+		<ul class="right"> 
+
+{{ if user:logged_in }}
+		
+	<li class="has-form"> 
+				<div class="row collapse"> 
+					<div class="large-8 small-9 columns"> 
+<a  class="button primary radius" href="{{ url:site uri='users/logout' }}">Logout</a>
+					</div> 
+				</div> 
+			</li>
+{{ else }}
+
+	<li class="has-form"> 
+				<div class="row collapse"> 
+					<div class="large-8 small-9 columns"> 
+		<a class="button secondary radius" href="{{ url:site uri='users/login' }}">Login</a>
+					</div> 
+				</div> 
+			</li>
+{{ endif }}
+
+		</ul> 
+		<!-- Left Nav Section --> 
+
+		<ul class="left">
+			{{ navigation:links group="header" separator='' more_class="has-dropdown has_children" class="active"}} 
+
+		</ul>
+
+
+	</section> 
+</nav>

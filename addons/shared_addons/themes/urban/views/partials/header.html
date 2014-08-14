@@ -1,0 +1,70 @@
+<!doctype html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]> <html class="no-js" lang="en"> 		   <![endif]-->
+
+<head>
+	
+
+	{{ theme:partial name="metadata" }}
+
+	<!-- Set a base location for assets -->
+	<base href="{{ url:base }}"/>
+	<!-- End base -->
+
+	<!-- CSS. No need to specify the media attribute unless specifically targeting a media type, leaving blank implies media=all -->
+	{{ asset:css file="app.css" }}
+	{{ asset:css file="foundation-icons.css" }}
+
+	<!-- End CSS-->
+
+	<!-- Google Font Lib -->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,700" type="text/css" />
+	<link href='http://fonts.googleapis.com/css?family=Lato:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>	
+
+	<!-- Load up some favicons -->
+	{{ theme:favicon }}
+
+	<!-- All JavaScript at the bottom, except for Modernizr. -->
+	{{ asset:js file="bower_components/modernizr/modernizr.js"  group="header"}}
+{{ asset:render css}}
+{{ asset:render js group="header"}}
+	
+	<!-- Google Analytics -->
+	{{ integration:analytics }}
+	
+</head>
+
+<body class="{{ url:segments segment="1" default="home" }}" onload="prettyPrint()">
+	
+	<!-- container -->
+	<div class="container">	
+
+		{{if theme:options:header_nav_width == 'content'}} 
+		<div class="row hcw">
+			{{ endif }}
+
+			{{ theme:partial name="top-nav" }}
+			<header>
+				<div class="row">
+					<div class="small-12 large-12 columns">
+
+						{{ if theme:options:show_sitename == 'header' }}
+						<a href="{{ url:base }}">
+							<h1>{{ settings:site_name }}</h1>
+						</a>	
+						{{ endif }}
+						<!-- slogan -->
+						{{ if { url:segments segment="1" } == '' AND theme:options:slogan == 'yes' }}
+						<h4>{{ settings:site_slogan }}</h4>
+						{{ endif }}
+
+					</div>
+				</div> <!-- /row -->
+			</header>
+
+			{{if theme:options:header_nav_width == 'content'}}
+		</div>
+		{{ endif }}

@@ -1,0 +1,61 @@
+.glyph {
+        border-bottom: 1px dotted #ccc;
+        padding: emCalc(10px 0 20px);
+        margin-bottom: emCalc(20px);
+      }
+
+      .preview-glyphs { vertical-align: bottom; } 
+
+      .preview-scale { 
+        color: #888;
+        font-size: emCalc(12px); 
+        margin-top: emCalc(5px);
+      }
+
+      .step {
+        display: inline-block;
+        line-height: 1;
+        width: 10%;
+      }
+
+      
+      .size-12 { font-size: emCalc(12px); }
+      
+      .size-14 { font-size: emCalc(14px); }
+      
+      .size-16 { font-size: emCalc(16px); }
+      
+      .size-18 { font-size: emCalc(18px); }
+      
+      .size-21 { font-size: emCalc(21px); }
+      
+      .size-24 { font-size: emCalc(24px); }
+      
+      .size-36 { font-size: emCalc(36px); }
+      
+      .size-48 { font-size: emCalc(48px); }
+      
+      .size-60 { font-size: emCalc(60px); }
+      
+      .size-72 { font-size: emCalc(72px); }
+      
+
+      .usage { margin-top: emCalc(10px); }
+
+      .usage input {
+        font-family: monospace;
+        margin-right: emCal(3px);
+       padding: emCal(2px 5);
+       text-align: center;
+      }
+
+      .usage .point { width: emCal(150px); }
+
+      .usage .class { width: emCal(250px); }
+
+      .footer {
+        color: #888;
+        font-size: emCal(12px);
+        padding: emCal(20px 0);
+      }
+      
