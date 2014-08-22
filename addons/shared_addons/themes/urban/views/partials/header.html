@@ -35,6 +35,8 @@
 	<!-- Google Analytics -->
 	{{ integration:analytics }}
 	
+
+
 </head>
 
 <body class="{{ url:segments segment="1" default="home" }}" onload="prettyPrint()">
@@ -43,7 +45,7 @@
 	<div class="container">	
 
 		{{if theme:options:header_nav_width == 'content'}} 
-		<div class="row hcw">
+		<div class="row hcw" >
 			{{ endif }}
 
 			{{ theme:partial name="top-nav" }}

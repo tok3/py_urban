@@ -1,0 +1,227 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="utf-8">
+	<title>jQuery plugin: Tablesorter 2.0 - Filter Widget</title>
+
+	<!-- jQuery -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+
+	<!-- Demo stuff -->
+	<link rel="stylesheet" href="css/jq.css">
+	<script src="js/chili/jquery.chili-2.2.js"></script>
+	<script src="js/chili/recipes.js"></script>
+	<script src="js/docs.js"></script>
+
+	<!-- Tablesorter: required -->
+	<link rel="stylesheet" href="../css/blue/style.css">
+	<script src="../js/jquery.tablesorter.js"></script>
+	<script src="../js/jquery.tablesorter.widgets.js"></script>
+
+	<!-- Tablesorter: optional -->
+	<!-- <script src="../addons/pager/jquery.tablesorter.pager.js"></script> -->
+
+<script id="js">$(function() {
+
+	// call the tablesorter plugin
+	$("table").tablesorter({
+
+		// initialize zebra striping and filter widgets
+		widgets: ["zebra", "filter"],
+
+		headers: { 5: { sorter: false, filter: false } },
+
+		widgetOptions : {
+
+			// css class applied to the table row containing the filters & the inputs within that row
+			filter_cssFilter : 'tablesorter-filter',
+
+			// filter widget: If there are child rows in the table (rows with class name from "cssChildRow" option)
+			// and this option is true and a match is found anywhere in the child row, then it will make that row
+			// visible; default is false
+			filter_childRows : false,
+
+			// Set this option to true to use the filter to find text from the start of the column
+			// So typing in "a" will find "albert" but not "frank", both have a's; default is false
+			filter_startsWith : false
+
+		}
+
+	});
+
+});</script>
+
+<script>
+$(function(){
+	// *** widgetfilter_startsWith toggle button ***
+	$('button.toggle').click(function(){
+		var c = $('table')[0].config,
+		// toggle the boolean
+		fs = !c.widgetOptions.filter_startsWith;
+		c.widgetOptions.filter_startsWith = fs;
+		// update search after option change
+		$('input.tablesorter-filter:eq(0)').trigger('search');
+		// update text so everyone knows the option's current value
+		$('#start').html(fs.toString());
+	});
+});
+</script>
+
+</head>
+<body>
+<div id="banner">
+	<h1>table<em>sorter</em></h1>
+	<h2>Filter Widget</h2>
+	<h3>Flexible client-side table sorting</h3>
+	<a href="index.html">Back to documentation</a>
+</div>
+<div id="main">
+
+	<p class="tip">
+		<em>NOTE!</em>
+		<ul>
+			<li>This widget can be applied to the original plugin. The code is in the "jquery.tablesorter.widgets.js" file.</li>
+			<li>Added filter header option and class name to allow disabling the filter in a specific column in v2.0.19.1.</li>
+			<li>The Discount column has the "filter-false" class added to the header - see the HTML on how to add this ability.</li>
+			<li>The Date column has the "headers" option applied to disable the sort and the filter - see the table options in the javascript for this example.</li>
+			<li>Replaced <code class="hilight">widgetFilterChildRows</code> option with <code class="hilight">widgetOptions.filter_childRows</code>. <span class="tip"><em>New! v2.1</em></span></li>
+			<li>Added <code class="hilight">widgetOptions.filter_startsWith</code> option, which when <code class="hilight">true</code>, allows you to search the table from the starting of the table cell text. Use the toggle button to see the difference, and that it can be dynamically changed! <span class="tip"><em>New! v2.1</em></span></li>
+			<li>Added <code class="hilight">widgetOptions.filter_cssFilter</code> option, which allows you to defined the css class applied to the filter row and each search input. <span class="tip"><em>New! v2.1</em></span></li>
+			<li>Additional filter widget specific options are included in the javascript below, with an explanation.</li>
+			<li>Please note that using the pager plugin with this filter widget will have <em>unexpected results</em> - I haven't figured out how to fix the problem.</li>
+			<li>This widget uses jQuery's <code class="hilight">.nextUntil()</code> function which is only available is jQuery version 1.4+.</li>
+		</ul>
+	</p>
+
+	<h1>Demo</h1>
+	<button class="toggle">Toggle</button> filter_startsWith : <span id="start">false</span> (if true, search from beginning of cell content only)
+	<div id="demo"><table class="tablesorter">
+	<thead>
+		<tr>
+			<th>First Name</th>
+			<th>Last Name</th>
+			<th>Age</th>
+			<th>Total</th>
+			<th class="filter-false">Discount</th> <!-- disable filter in this column -->
+			<th>Date</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Philip</td>
+			<td>Johnson</td>
+			<td>25</td>
+			<td>$5.95</td>
+			<td>22%</td>
+			<td>Jun 26, 2004 7:22 AM</td>
+		</tr>
+		<tr>
+			<td>Aaron</td>
+			<td>Hibert</td>
+			<td>12</td>
+			<td>$2.99</td>
+			<td>5%</td>
+			<td>Aug 21, 2009 12:21 PM</td>
+		</tr>
+		<tr>
+			<td>Brandon</td>
+			<td>Henry</td>
+			<td>51</td>
+			<td>$42.29</td>
+			<td>18%</td>
+			<td>Oct 13, 2000 1:15 PM</td>
+		</tr>
+		<tr>
+			<td>Peter</td>
+			<td>Parker</td>
+			<td>28</td>
+			<td>$9.99</td>
+			<td>20%</td>
+			<td>Jul 6, 2006 8:14 AM</td>
+		</tr>
+		<tr>
+			<td>John</td>
+			<td>Hood</td>
+			<td>33</td>
+			<td>$19.99</td>
+			<td>25%</td>
+			<td>Dec 10, 2002 5:14 AM</td>
+		</tr>
+		<tr>
+			<td>Clark</td>
+			<td>Kent</td>
+			<td>18</td>
+			<td>$15.89</td>
+			<td>44%</td>
+			<td>Jan 12, 2003 11:14 AM</td>
+		</tr>
+		<tr>
+			<td>Bruce</td>
+			<td>Almighty</td>
+			<td>45</td>
+			<td>$153.19</td>
+			<td>44%</td>
+			<td>Jan 18, 2001 9:12 AM</td>
+		</tr>
+		<tr>
+			<td>Bruce</td>
+			<td>Evans</td>
+			<td>22</td>
+			<td>$13.19</td>
+			<td>11%</td>
+			<td>Jan 18, 2007 9:12 AM</td>
+		</tr>
+	</tbody>
+</table></div>
+
+	<h1>Page Header</h1>
+	<div>
+		<pre class="html">&lt;!-- blue theme stylesheet --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;../css/blue/style.css&quot;&gt;
+&lt;!-- tablesorter plugin --&gt;
+&lt;script src=&quot;../js/jquery.tablesorter.js&quot;&gt;&lt;/script&gt;
+
+&lt;!-- tablesorter widget file - loaded after the plugin --&gt;
+&lt;script src=&quot;../js/jquery.tablesorter.widgets.js&quot;&gt;&lt;/script&gt;</pre>
+	</div>
+
+	<h1>Javascript</h1>
+	<div id="javascript">
+		<pre class="js"></pre>
+	</div>
+
+	<h1>CSS</h1>
+	<div>
+		<pre class="css">/* filter widget, added to style.css themes */
+table.tablesorter thead tr.filters input {
+	width: 95%;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+table.tablesorter thead tr.filters, table.tablesorter thead tr.filters td {
+	text-align: center;
+	background: #fff;
+}
+/* optional disabled input styling */
+table.tablesorter thead tr.filters input.disabled {
+	opacity: 0.5;
+	filter: alpha(opacity=50);
+}</pre>
+	</div>
+
+	<h1>HTML</h1>
+	<div id="html">
+		<pre class="html"></pre>
+	</div>
+
+<div class="next-up">
+	<hr />
+	Next up: <a href="example-widget-ui-theme.html">jQuery UI theme widget &rsaquo;&rsaquo;</a>
+</div>
+
+</div>
+
+</body>
+</html>
+

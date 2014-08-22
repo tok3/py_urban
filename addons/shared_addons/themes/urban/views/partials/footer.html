@@ -1,24 +1,24 @@
 
 {{if theme:options:footer_width == 'content'}} 
 <div class="row hcw">
-	{{ endif }}
-	<footer id="footer" class="hide-for-print">
-		 <div class="row">
-    <div class="small-12 medium-4 columns fSocialCol">
+  {{ endif }}
+  <footer id="footer" class="hide-for-print">
+	<div class="row">
+	  <div class="small-12 medium-4 columns fSocialCol">
 
 
-</div>
-<div class="small-12 medium-8 columns fNavCol">
-	
-  <span id="footerNav">
-  	 {{ navigation:links group="footer" tag="span" separator=" "}} 
-</span>
-  <p class="copyright">&copy; {{ settings:site_name }} {{ helper:date format="Y" }}</p>
-	
-  
-</div><!-- /colums -->
-</div><!-- /row -->
-</footer>
+	  </div>
+	  <div class="small-12 medium-8 columns fNavCol">
+		
+		<span id="footerNav">
+		  {{ navigation:links group="footer" tag="span" separator=" "}} 
+		</span>
+		<p class="copyright">&copy; {{ settings:site_name }} {{ helper:date format="Y" }}</p>
+		
+		
+	  </div><!-- /colums -->
+	</div><!-- /row -->
+  </footer>
 
 
 </div>
@@ -28,7 +28,6 @@
 
 <!-- Scripts -->
 
-{{ asset:js file="bower_components/jquery/jquery.js" group="footer"}}
 
 {{ asset:js file="bower_components/foundation/js/foundation.min.js"  group="footer"}}
 {{ asset:js file="bower_components/foundation/js/foundation/foundation.topbar.js"  group="footer"}}
@@ -39,13 +38,13 @@
 
 
 <!-- End Scripts -->
-  <script type="text/javascript">
+<script type="text/javascript">
   //<![CDATA[
 
   var footer_width = '{{theme:options:footer_width}}';
   var sticky_footer = '{{theme:options:sticky_footer}}';
 
-//]]>
+  //]]>
 </script>
 
 {{ asset:js file="app.js"  group="footer"}}
@@ -53,10 +52,10 @@
 
 
 <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you want to support IE 6. chromium.org/developers/how-tos/chrome-frame-getting-started -->
-  	<!--[if lt IE 7 ]>
-    	<script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
-    	<script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
-    	<![endif]-->
+<!--[if lt IE 7 ]>
+	<script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+	<script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+	<![endif]-->
 
-    </body>
-    </html>
+</body>
+</html>

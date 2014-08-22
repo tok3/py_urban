@@ -1,0 +1,47 @@
+/*@import "http://localhost/py_ramstrg/addons/shared_addons/themes/teamlog/css/";*/
+
+
+.form_inputs .inline{
+  display:inline !important;
+}
+
+.width-150
+{
+	
+
+	width:150px !important;
+	
+}
+.width-5
+{
+	
+width:60px !important;
+}
+
+.inline
+{
+	
+	display:inline !important;
+}
+.day_select
+{
+	
+	width:100px !important;
+}
+.time_select
+{
+	
+	width:70px !important;
+}
+
+#cboxLoadedContent
+{
+/* 	overflow: hidden !important; */
+}
+
+ TD.rampActive,
+ TH.rampActive
+{ 
+text-align:center !important;
+
+ }
