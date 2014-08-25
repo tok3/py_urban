@@ -256,6 +256,7 @@ return  $retVal;
 
    function test()
    {
+ini_set('allow_url_fopen',0);
 
 	   $dist = $this->googlemaps->get_dist('DE 65185', 'mailand');
 

@@ -2273,11 +2273,27 @@ class Googlemaps {
 
 		$url = 'http://maps.googleapis.com/maps/api/distancematrix/json?origins='.urlencode($retVal['latLong_start']).'&destinations='.urlencode($retVal['latLong_dest']).'&mode=driving&language=de-DE&sensor=false';
 
-		$json_result = json_decode(file_get_contents($url));
+		$json_result = json_decode($this->file_get_contents_curl($url));
 
 		return	$json_result;
 
 	}
+// --------------------------------------------------------------------
+	
+function file_get_contents_curl($url) {
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
+    curl_setopt($ch, CURLOPT_HEADER, 0);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);       
+
+    $data = curl_exec($ch);
+    curl_close($ch);
+
+    return $data;
+}
 }
 
 ?>
