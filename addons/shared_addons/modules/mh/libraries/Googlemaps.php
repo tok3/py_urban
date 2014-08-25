@@ -2217,7 +2217,7 @@ class Googlemaps {
 		if ($this->https) { $data_location = 'https://'; }else{ $data_location = 'http://'; }
 		$data_location .= "maps.google.com/maps/api/geocode/json?address=".urlencode(utf8_encode($address))."&sensor=".$this->sensor;
 		if ($this->region!="" && strlen($this->region)==2) { $data_location .= "&region=".$this->region; }
-		$data = file_get_contents($data_location);
+		$data = $this->file_get_contents_curl($data_location);
 		
 		$data = json_decode($data);
 		
