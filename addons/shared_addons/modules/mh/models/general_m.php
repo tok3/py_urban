@@ -57,6 +57,36 @@ class general_m extends MY_Model {
 
    }
 
+// --------------------------------------------------------------------
+/**
+* options mit activen ländern
+* 
+* @access 	public	
+* @param 	int	
+* @return 	array	
+* 
+*/
+   public function get_active_countries($first_select = 1)
+{
+	  $this->db->select('mh_countries.*');
+	  $this->db->from('mh_countries');
+	  $this->db->join('mh_calc_factors', 'mh_countries.id = mh_calc_factors.country_id');
+	  $this->db->order_by('de', 'asc');
+	  $query = $this->db->get();
+	  $result = $query->result();
+
+	  if($first_select == 1)
+		 {
+	  $options[''] = 'Bitte w&auml;hlen';
+		 }
+	  foreach($result as $key => $item)
+		 {
+			$options[$item->iso] = $item->de .  ' (' . $item->iso. ')';
+			}
+
+
+	  return $options;
+}   
 
    // --------------------------------------------------------------------
    

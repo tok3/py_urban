@@ -57,7 +57,27 @@ class portage_ref_m extends MY_Model {
 
    }
 
+   // --------------------------------------------------------------------
+   
+   public function getPrice($_dist, $_weight)
+   {
+	  $this->db->select('mh_portage_reference.portage_eur, mh_distances.km, mh_weight_range.kg');
+	  $this->db->from('mh_portage_reference');
+	  $this->db->join('mh_distances','mh_portage_reference.distance_id = mh_distances.id');
+	  $this->db->join('mh_weight_range','mh_portage_reference.weight_range_id = mh_weight_range.id');
 
+	  $this->db->where('mh_distances.km >= ' .$_dist);
+	  $this->db->where('mh_weight_range.kg >= ' .$_weight);
+
+
+	  $query = $this->db->get();
+	  $result = $query->result();
+	  
+	  if(count($result) >= 1)
+		 {
+			return $result[0];
+		 }   
+   }
    // --------------------------------------------------------------------
    
 }

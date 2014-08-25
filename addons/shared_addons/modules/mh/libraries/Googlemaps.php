@@ -147,7 +147,7 @@ class Googlemaps {
 	var $placesName					= '';						// A term to be matched against when searching for places to display on the map
 	var $placesAutocompleteInputID	= '';						// The ID attribute of the textfield that the autocomplete should effect
 	var $placesAutocompleteTypes	= array();					// The types of places for the autocomplete to return. Options can be seen here https://developers.google.com/maps/documentation/javascript/places#places_autocomplete but include 'establishment' to only return business results, '(cities)', or '(regions)'
-	var $placesAutocompleteBoundSW	= '';						// By specifying an area in which to search for Places, the results are biased towards, but not restricted to, Places contained within these bounds.
+																var $placesAutocompleteBoundSW	= '';						// By specifying an area in which to search for Places, the results are biased towards, but not restricted to, Places contained within these bounds.
 	var $placesAutocompleteBoundNE	= '';						// Both South-West (lat/long co-ordinate or address) and North-East (lat/long co-ordinate or address) values are required if wishing to set bounds
 	var $placesAutocompleteBoundsMap= FALSE;					// An alternative to setting the SW and NE bounds is to use the bounds of the current viewport. If set to TRUE, the bounds will be set to the viewport of the visible map, even if dragged or zoomed
 	var $placesAutocompleteOnChange	= '';						// The JavaScript action to perform when a place is selected
@@ -155,9 +155,9 @@ class Googlemaps {
 	function Googlemaps($config = array())
 	{
 		if (count($config) > 0)
-		{
-			$this->initialize($config);
-		}
+			{
+				$this->initialize($config);
+			}
 
 		log_message('debug', "Google Maps Class Initialized");
 	}
@@ -165,12 +165,12 @@ class Googlemaps {
 	function initialize($config = array())
 	{
 		foreach ($config as $key => $val)
-		{
-			if (isset($this->$key))
 			{
-				$this->$key = $val;
+				if (isset($this->$key))
+					{
+						$this->$key = $val;
+					}
 			}
-		}
 		
 		if ($this->sensor) { $this->sensor = "true"; }else{ $this->sensor = "false"; }
 		
@@ -191,7 +191,7 @@ class Googlemaps {
 		$marker['flat'] = FALSE;								// If set to TRUE will not display a shadow beneath the icon
 		$marker['icon'] = '';									// The name or url of the icon to use for the marker
 		$marker['icon_size'] = '';								// The display size of the sprite or image being used. When using sprites, you must specify the sprite size. Expecting two comma-separated values for width and height respectively (ie '20,30'). See https://developers.google.com/maps/documentation/javascript/3.exp/reference#Icon
-		$marker['icon_scaledSize'] = '';						// The size of the entire image after scaling, if any. Use this property to stretch/shrink an image or a sprite. Expecting two comma-separated values for width and height respectively (ie '20,30')
+																$marker['icon_scaledSize'] = '';						// The size of the entire image after scaling, if any. Use this property to stretch/shrink an image or a sprite. Expecting two comma-separated values for width and height respectively (ie '20,30')
 		$marker['icon_origin'] = '';							// If using a sprite, the position of the image within the sprite. Expecting two comma-separated values for distance from the top and left respectively (ie '20,30')
 		$marker['icon_anchor'] = '';							// The position at which to anchor an image in correspondance to the location of the marker on the map. By default, the anchor is located along the center point of the bottom of the image. Expecting two comma-separated values (ie '20,30'). Credit to https://github.com/colethorsen
 		$marker['animation'] = ''; 								// blank, 'DROP' or 'BOUNCE'
@@ -226,9 +226,9 @@ class Googlemaps {
 		
 		$marker_id = count($this->markers);
 		if (trim($marker['id']) != "")
-		{
-			$marker_id = $marker['id'];
-		}
+			{
+				$marker_id = $marker['id'];
+			}
 		
 		if ($marker['position']!="") {
 			if ($this->is_lat_long($marker['position'])) {
@@ -259,7 +259,7 @@ class Googlemaps {
 				$marker_output .= ',
 					scaledSize: new google.maps.Size('.$marker['icon_scaledSize'].')';
 			}
-				if ($marker['icon_origin']!="") {
+			if ($marker['icon_origin']!="") {
 				$marker_output .= ',
 					origin: new google.maps.Point('.$marker['icon_origin'].')';
 			}
@@ -442,7 +442,7 @@ class Googlemaps {
 		$polyline['points'] = array();							// An array of latitude/longitude coordinates OR addresses, or a mixture of both. If an address is supplied the Google geocoding service will be used to return a lat/long.
 		$polyline['clickable'] = TRUE;							// Defines if the polyline is clickable
 		$polyline['strokeColor'] = '#FF0000';					// The hex value of the polylines color
-		$polyline['strokeOpacity'] = '1.0';						// The opacity of the polyline. 0 to 1.0
+																$polyline['strokeOpacity'] = '1.0';						// The opacity of the polyline. 0 to 1.0
 		$polyline['strokeWeight'] = '2';						// The thickness of the polyline
 		$polyline['onclick'] = '';								// JavaScript performed when a polyline is clicked
 		$polyline['ondblclick'] = '';							// JavaScript performed when a polyline is double-clicked
@@ -587,10 +587,10 @@ class Googlemaps {
 		$polygon['points'] = array();							// The positions (latitude/longitude coordinates OR addresses) at which the polygon points will appear. NOTE: The first and last elements of the array must be the same
 		$polygon['clickable'] = TRUE;							// Defines if the polygon is clickable
 		$polygon['strokeColor'] = '#FF0000';					// The hex value of the polygons border color
-		$polygon['strokeOpacity'] = '0.8';						// The opacity of the polygon border. 0 to 1.0
+																$polygon['strokeOpacity'] = '0.8';						// The opacity of the polygon border. 0 to 1.0
 		$polygon['strokeWeight'] = '2';							// The thickness of the polygon border
 		$polygon['fillColor'] = '#FF0000';						// The hex value of the polygons fill color
-		$polygon['fillOpacity'] = '0.3';						// The opacity of the polygons fill
+																$polygon['fillOpacity'] = '0.3';						// The opacity of the polygons fill
 		$polygon['onclick'] = '';								// JavaScript performed when a polygon is clicked
 		$polygon['ondblclick'] = '';							// JavaScript performed when a polygon is double-clicked
 		$polygon['onmousedown'] = '';							// JavaScript performed when a mousedown event occurs on a polygon
@@ -745,7 +745,7 @@ class Googlemaps {
 		$circle['strokeOpacity'] = '0.8';						// The opacity of the circle border
 		$circle['strokeWeight'] = '2';							// The thickness of the circle border
 		$circle['fillColor'] = '#FF0000';						// The hex value of the circles fill color
-		$circle['fillOpacity'] = '0.3';							// The opacity of the circles fill
+																$circle['fillOpacity'] = '0.3';							// The opacity of the circles fill
 		$circle['onclick'] = '';								// JavaScript performed when a circle is clicked
 		$circle['ondblclick'] = '';								// JavaScript performed when a circle is double-clicked
 		$circle['onmousedown'] = '';							// JavaScript performed when a mousedown event occurs on a circle
@@ -884,7 +884,7 @@ class Googlemaps {
 		$rectangle['strokeOpacity'] = '0.8';					// The opacity of the rectangle border
 		$rectangle['strokeWeight'] = '2';						// The thickness of the rectangle border
 		$rectangle['fillColor'] = '#FF0000';					// The hex value of the rectangles fill color
-		$rectangle['fillOpacity'] = '0.3';						// The opacity of the rectangles fill
+																$rectangle['fillOpacity'] = '0.3';						// The opacity of the rectangles fill
 		$rectangle['onclick'] = '';								// JavaScript performed when a rectangle is clicked
 		$rectangle['ondblclick'] = '';							// JavaScript performed when a rectangle is double-clicked
 		$rectangle['onmousedown'] = '';							// JavaScript performed when a mousedown event occurs on a rectangle
@@ -1112,37 +1112,37 @@ class Googlemaps {
 		$this->output_html = '';
 		
 		if ($this->maps_loaded == 0)
-		{
-			if ($this->apiKey!="") 
 			{
-				if ($this->https) { $apiLocation = 'https'; }else{ $apiLocation = 'http'; }
-				$apiLocation .= '://maps.googleapis.com/maps/api/js?key='.$this->apiKey.'&';
-			}
-			else
-			{
-				if ($this->https) { $apiLocation = 'https://maps-api-ssl'; }else{ $apiLocation = 'http://maps'; }
-				$apiLocation .= '.google.com/maps/api/js?';
-			}
-			$apiLocation .= 'sensor='.$this->sensor;
-			if ($this->region!="" && strlen($this->region)==2) { $apiLocation .= '&region='.strtoupper($this->region); }
-			if ($this->language!="") { $apiLocation .= '&language='.$this->language; }
-			$libraries = array();
-			if ($this->adsense!="") { array_push($libraries, 'adsense'); }
-			if ($this->places!="") { array_push($libraries, 'places'); }
-			if ($this->panoramio) { array_push($libraries, 'panoramio'); }
-			if ($this->drawing) { array_push($libraries, 'drawing'); }
-			if (count($libraries)) { $apiLocation .= '&libraries='.implode(",", $libraries); }
+				if ($this->apiKey!="") 
+					{
+						if ($this->https) { $apiLocation = 'https'; }else{ $apiLocation = 'http'; }
+						$apiLocation .= '://maps.googleapis.com/maps/api/js?key='.$this->apiKey.'&';
+					}
+				else
+					{
+						if ($this->https) { $apiLocation = 'https://maps-api-ssl'; }else{ $apiLocation = 'http://maps'; }
+						$apiLocation .= '.google.com/maps/api/js?';
+					}
+				$apiLocation .= 'sensor='.$this->sensor;
+				if ($this->region!="" && strlen($this->region)==2) { $apiLocation .= '&region='.strtoupper($this->region); }
+				if ($this->language!="") { $apiLocation .= '&language='.$this->language; }
+				$libraries = array();
+				if ($this->adsense!="") { array_push($libraries, 'adsense'); }
+				if ($this->places!="") { array_push($libraries, 'places'); }
+				if ($this->panoramio) { array_push($libraries, 'panoramio'); }
+				if ($this->drawing) { array_push($libraries, 'drawing'); }
+				if (count($libraries)) { $apiLocation .= '&libraries='.implode(",", $libraries); }
 			
-			if (!$this->loadAsynchronously)
-			{
-				$this->output_js .= '
+				if (!$this->loadAsynchronously)
+					{
+						$this->output_js .= '
 				<script type="text/javascript" src="'.$apiLocation.'"></script>';
-			}
+					}
 			
-			if ($this->cluster) { $this->output_js .= '
+				if ($this->cluster) { $this->output_js .= '
 			<script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer_compiled.js"></script>
 			'; }
-		}
+			}
 		if ($this->jsfile=="") {
 			$this->output_js .= '
 			<script type="text/javascript">
@@ -1175,10 +1175,10 @@ class Googlemaps {
 			$this->output_js_contents .= 'var placesService;
 			';
 			if ($this->placesAutocompleteInputID != "")
-			{
-				$this->output_js_contents .= 'var placesAutocomplete;
+				{
+					$this->output_js_contents .= 'var placesAutocomplete;
 			';
-			}
+				}
 		}
 		if ($this->adsense) { 
 			$this->output_js_contents .= 'var adUnit;
@@ -1192,11 +1192,11 @@ class Googlemaps {
 		$this->output_js_contents .= '
 			var iw_'.$this->map_name.' = new google.maps.InfoWindow(';
 		if ($this->infowindowMaxWidth != 0)
-		{
-			$this->output_js_contents .= '{
+			{
+				$this->output_js_contents .= '{
 				maxWidth: '.$this->infowindowMaxWidth.'
 			}';
-		}
+			}
 		$this->output_js_contents .= ');
 				
 				 ';
@@ -1306,7 +1306,7 @@ class Googlemaps {
 					  '.$this->map_name.'.mapTypes.set("style'.$styles.'", styles_'.$styles.');
 				';
 				if ($this->stylesAsMapTypesDefault==$style['name']) {
-				$styleOutput .= '
+					$styleOutput .= '
 					  '.$this->map_name.'.setMapTypeId("style'.$styles.'");
 				';
 				}
@@ -1380,32 +1380,32 @@ class Googlemaps {
 		}
 		
 		if ((is_array($this->kmlLayerURL) && count($this->kmlLayerURL)) || (!is_array($this->kmlLayerURL) && $this->kmlLayerURL != ""))
-		{
-			if (!is_array($this->kmlLayerURL))
 			{
-				// Need to convert single KML layer to array
-				$this->kmlLayerURL = array($this->kmlLayerURL);
-			}
-			if (count($this->kmlLayerURL))
-			{
-				$i = 0;
-				foreach ($this->kmlLayerURL as $kmlLayerURL)
-				{
-					$this->output_js_contents .= '
+				if (!is_array($this->kmlLayerURL))
+					{
+						// Need to convert single KML layer to array
+						$this->kmlLayerURL = array($this->kmlLayerURL);
+					}
+				if (count($this->kmlLayerURL))
+					{
+						$i = 0;
+						foreach ($this->kmlLayerURL as $kmlLayerURL)
+							{
+								$this->output_js_contents .= '
 						var kmlLayerOptions = {
 							map: '.$this->map_name;
-					if ($this->kmlLayerPreserveViewport) {
-						$this->output_js_contents .= ',
+								if ($this->kmlLayerPreserveViewport) {
+									$this->output_js_contents .= ',
 							preserveViewport: true';
-					}
-					$this->output_js_contents .= '
+								}
+								$this->output_js_contents .= '
 						}
 						var kmlLayer_'.$i.' = new google.maps.KmlLayer("'.$kmlLayerURL.'", kmlLayerOptions);
 						';
-					++$i;
-				}
+								++$i;
+							}
+					}
 			}
-		}
 
 		if ($this->panoramio) {
 			$this->output_js_contents .= 'var panoramioLayer = new google.maps.panoramio.PanoramioLayer();
@@ -1647,100 +1647,100 @@ class Googlemaps {
 			}
 			
 			if (($placesLocationSet || $this->placesLocation!="") || count($this->placesTypes) || $this->placesName!="")
-			{
-				$this->output_js_contents .= 'var placesRequest = {
+				{
+					$this->output_js_contents .= 'var placesRequest = {
 					';
-				if ($placesLocationSet) {
-					$this->output_js_contents .= 'bounds: new google.maps.LatLngBounds(placesLocationSW, placesLocationNE)
+					if ($placesLocationSet) {
+						$this->output_js_contents .= 'bounds: new google.maps.LatLngBounds(placesLocationSW, placesLocationNE)
 						';
-				}else{
-					if ($this->placesLocation!="") { // if search based on a center point
-						if ($this->is_lat_long($this->placesLocation)) { // if centering the map on a lat/long
-							$this->output_js_contents .= 'location: new google.maps.LatLng('.$this->placesLocation.')
+					}else{
+						if ($this->placesLocation!="") { // if search based on a center point
+							if ($this->is_lat_long($this->placesLocation)) { // if centering the map on a lat/long
+								$this->output_js_contents .= 'location: new google.maps.LatLng('.$this->placesLocation.')
 						';
-						}else{  // if centering the map on an address
-							$lat_long = $this->get_lat_long_from_address($this->placesLocation);
-							$this->output_js_contents .= 'location: new google.maps.LatLng('.$lat_long[0].', '.$lat_long[1].')
+							}else{  // if centering the map on an address
+								$lat_long = $this->get_lat_long_from_address($this->placesLocation);
+								$this->output_js_contents .= 'location: new google.maps.LatLng('.$lat_long[0].', '.$lat_long[1].')
+						';
+							}
+							$this->output_js_contents .= ',radius: '.$this->placesRadius.'
 						';
 						}
-						$this->output_js_contents .= ',radius: '.$this->placesRadius.'
+					}
+				
+					if (count($this->placesTypes)) {
+						$this->output_js_contents .= ',types: [\''.implode("','", $this->placesTypes).'\']
 						';
 					}
-				}
-				
-				if (count($this->placesTypes)) {
-					$this->output_js_contents .= ',types: [\''.implode("','", $this->placesTypes).'\']
+					if ($this->placesName!="") {
+						$this->output_js_contents .= ',name : \''.$this->placesName.'\'
 						';
-				}
-				if ($this->placesName!="") {
-					$this->output_js_contents .= ',name : \''.$this->placesName.'\'
-						';
-				}
-				$this->output_js_contents .= '};
+					}
+					$this->output_js_contents .= '};
 				
 				placesService = new google.maps.places.PlacesService('.$this->map_name.');
 				placesService.search(placesRequest, placesCallback);
 				';
-			}
+				}
 			
 			if ($this->placesAutocompleteInputID != "")
-			{
-				$this->output_js_contents .= 'var autocompleteOptions = {
-					';
-				$autocompleteOptions = '';
-				if ($this->placesAutocompleteBoundSW != "" && $this->placesAutocompleteBoundNE != "")
 				{
-					if ($this->is_lat_long($this->placesAutocompleteBoundSW)) {
-						$autocompleteOptionsSW = 'new google.maps.LatLng('.$this->placesAutocompleteBoundSW.')
+					$this->output_js_contents .= 'var autocompleteOptions = {
 					';
-					}else{  // if centering the map on an address
-						$lat_long = $this->get_lat_long_from_address($this->placesAutocompleteBoundSW);
-						$autocompleteOptionsSW = 'new google.maps.LatLng('.$lat_long[0].', '.$lat_long[1].')
+					$autocompleteOptions = '';
+					if ($this->placesAutocompleteBoundSW != "" && $this->placesAutocompleteBoundNE != "")
+						{
+							if ($this->is_lat_long($this->placesAutocompleteBoundSW)) {
+								$autocompleteOptionsSW = 'new google.maps.LatLng('.$this->placesAutocompleteBoundSW.')
 					';
-					}
+							}else{  // if centering the map on an address
+								$lat_long = $this->get_lat_long_from_address($this->placesAutocompleteBoundSW);
+								$autocompleteOptionsSW = 'new google.maps.LatLng('.$lat_long[0].', '.$lat_long[1].')
+					';
+							}
 					
-					if ($this->is_lat_long($this->placesAutocompleteBoundNE)) {
-						$autocompleteOptionsNE = 'new google.maps.LatLng('.$this->placesAutocompleteBoundNE.')
+							if ($this->is_lat_long($this->placesAutocompleteBoundNE)) {
+								$autocompleteOptionsNE = 'new google.maps.LatLng('.$this->placesAutocompleteBoundNE.')
 					';
-					}else{  // if centering the map on an address
-						$lat_long = $this->get_lat_long_from_address($this->placesAutocompleteBoundNE);
-						$autocompleteOptionsNE = 'new google.maps.LatLng('.$lat_long[0].', '.$lat_long[1].')
+							}else{  // if centering the map on an address
+								$lat_long = $this->get_lat_long_from_address($this->placesAutocompleteBoundNE);
+								$autocompleteOptionsNE = 'new google.maps.LatLng('.$lat_long[0].', '.$lat_long[1].')
 					';
-					}
-					$autocompleteOptions .= 'bounds: new google.maps.LatLngBounds('.$autocompleteOptionsSW.', '.$autocompleteOptionsNE.')';
-				}
-				if (count($this->placesAutocompleteTypes))
-				{
-					if ($autocompleteOptions != "") 
-					{
-						 $autocompleteOptions .= ',
+							}
+							$autocompleteOptions .= 'bounds: new google.maps.LatLngBounds('.$autocompleteOptionsSW.', '.$autocompleteOptionsNE.')';
+						}
+					if (count($this->placesAutocompleteTypes))
+						{
+							if ($autocompleteOptions != "") 
+								{
+									$autocompleteOptions .= ',
 						 '; 
-					}
-					$autocompleteOptions .= 'types: [\''.implode("','", $this->placesAutocompleteTypes).'\']';
-				}
-				$this->output_js_contents .= $autocompleteOptions;
-				$this->output_js_contents .= '}';
+								}
+							$autocompleteOptions .= 'types: [\''.implode("','", $this->placesAutocompleteTypes).'\']';
+						}
+					$this->output_js_contents .= $autocompleteOptions;
+					$this->output_js_contents .= '}';
 				
-				$this->output_js_contents .= '
+					$this->output_js_contents .= '
 				var autocompleteInput = document.getElementById(\''.$this->placesAutocompleteInputID.'\');
 				
 				placesAutocomplete = new google.maps.places.Autocomplete(autocompleteInput, autocompleteOptions);
 				';
 				
-				if ($this->placesAutocompleteBoundsMap)
-				{
-					$this->output_js_contents .= 'placesAutocomplete.bindTo(\'bounds\', map);
+					if ($this->placesAutocompleteBoundsMap)
+						{
+							$this->output_js_contents .= 'placesAutocomplete.bindTo(\'bounds\', map);
 					';
-				}
+						}
 				
-				if ($this->placesAutocompleteOnChange != "")
-				{
-					$this->output_js_contents .= 'google.maps.event.addListener(placesAutocomplete, \'place_changed\', function() {
+					if ($this->placesAutocompleteOnChange != "")
+						{
+							$this->output_js_contents .= 'google.maps.event.addListener(placesAutocomplete, \'place_changed\', function() {
 						'.$this->placesAutocompleteOnChange.'
 					});
 					';
+						}
 				}
-			}
 			
 		}
 		
@@ -2021,10 +2021,10 @@ class Googlemaps {
 				$this->output_js_contents .= ', waypoints: [' . $directionsWaypointStr . ']';
 				
 				if ($this->directionsWaypointsOptimize)
-				{
-					 $this->output_js_contents .= ', optimizeWaypoints: true'
-					 ;
-				}
+					{
+						$this->output_js_contents .= ', optimizeWaypoints: true'
+							;
+					}
             }
 			if ($this->region!="" && strlen($this->region)==2) { 
 				$this->output_js_contents .= ',region: '.strtoupper($this->region).'
@@ -2222,40 +2222,62 @@ class Googlemaps {
 		$data = json_decode($data);
 		
 		if ($data->status=="OK") 
-		{
-			$lat = $data->results[0]->geometry->location->lat;
-			$lng = $data->results[0]->geometry->location->lng;
-			
-			if ($this->geocodeCaching) { // if we to need to cache this result
-				if ($address != "" && $lat != 0 && $lng != 0)
-				{
-					$data = array(
-						"address"=>trim(strtolower($address)),
-						"latitude"=>$lat,
-						"longitude"=>$lng
-					);
-					$CI->db->insert("geocoding", $data);
-				}
-			}
-		}
-		else
-		{
-			if ($data->status == "OVER_QUERY_LIMIT") 
 			{
-				$error = $data->status;
-				if ($attempts < 2)
-				{
-					sleep(1);
-					++$attempts;
-					list($lat, $lng, $error) = $this->get_lat_long_from_address($address, $attempts);
+				$lat = $data->results[0]->geometry->location->lat;
+				$lng = $data->results[0]->geometry->location->lng;
+			
+				if ($this->geocodeCaching) { // if we to need to cache this result
+					if ($address != "" && $lat != 0 && $lng != 0)
+						{
+							$data = array(
+										  "address"=>trim(strtolower($address)),
+										  "latitude"=>$lat,
+										  "longitude"=>$lng
+										  );
+							$CI->db->insert("geocoding", $data);
+						}
 				}
 			}
-		}
+		else
+			{
+				if ($data->status == "OVER_QUERY_LIMIT") 
+					{
+						$error = $data->status;
+						if ($attempts < 2)
+							{
+								sleep(1);
+								++$attempts;
+								list($lat, $lng, $error) = $this->get_lat_long_from_address($address, $attempts);
+							}
+					}
+			}
 		
 		return array($lat, $lng, $error);
 		
 	}
 	
+	// --------------------------------------------------------------------
+	/**
+	 * distance between a and b
+	 * 
+	 */	
+
+	public function get_dist($_addr_a, $_addr_b)
+	{
+
+		$latLongA = 	  $this->get_lat_long_from_address($_addr_a);
+		$latLongB = 	  $this->get_lat_long_from_address($_addr_b);
+
+		$retVal['latLong_start'] = $latLongA[0] . ',' . $latLongA[1];
+		$retVal['latLong_dest'] = $latLongB[0] . ',' . $latLongB[1];
+
+		$url = 'http://maps.googleapis.com/maps/api/distancematrix/json?origins='.urlencode($retVal['latLong_start']).'&destinations='.urlencode($retVal['latLong_dest']).'&mode=driving&language=de-DE&sensor=false';
+
+		$json_result = json_decode(file_get_contents($url));
+
+		return	$json_result;
+
+	}
 }
 
 ?>

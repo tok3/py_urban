@@ -1,4 +1,4 @@
-<?php echo form_open();?>
+					  <?php echo form_open();?>
 <fieldset>
   <legend>Kalkulatorische Transportkostenermittlung</legend>
 
@@ -13,32 +13,80 @@
   </div> <!-- ende row -->
 
 
+  <div class="row"> 
+	<div class="large-6 columns">
+	  <fieldset>
+		<legend>Gewicht</legend>
+
+		<div class="large-6 columns">
+
+		  <label>Kg: *</label> 
+		  <?php echo $formfields['weight'];?>
+		</div>
+
+
+	  </fieldset>
+
+
+	</div>
+	<div class="large-6 columns">
+
+		<div class="large-12 columns">
+																						<label>&nbsp;</label> 
+
+		  <?php echo $errors;?>
+		</div>
+
+	</div>
+
+  </div>
 
   <div class="row"> 
 	<div class="large-6 columns">
-	  <div class="large-2 columns">
-		<label>Von:</label> 
-LKZ
-	  </div>
-					<div class="large-4 columns">
-			   <select><option>select</option></select>
-	  </div>
+	  <fieldset>
+		<legend>Von</legend>
+
+		<div class="large-6 columns">
+
+		  <label>Land:</label> 
+		  <?php echo $formfields['country_from'];?>
+		</div>
 
 
+		<div class="large-6 columns">
+		  <label>Abgangsort / PLZ:</label> 
+		  <?php echo $formfields['location_from'];?>
+		</div>
 
+
+	  </fieldset>
 	</div>
 
 	<div class="large-6 columns">
-	  <div class="large-3 columns">
-		<label>Nach:</label> 
+	  <fieldset>
+		<legend>Nach</legend>
 
-	  </div>
+		<div class="large-6 columns">
 
+		  <label>Land:</label> 
+		  <?php echo $formfields['country_to'];?>
+		</div>
+
+
+		<div class="large-6 columns">
+		  <label>Empfangsort / PLZ:</label> 
+		  <?php echo $formfields['location_to'];?>
+		</div>
+
+
+	  </fieldset>
 	</div>
 
+
   </div> <!-- ende row -->
-								   
+					<?php echo $info;?>
+  
 </fieledset>
-<button name="submit" value="1" type="submit" class="tiny radius">Speichern&nbsp;<i class="fi-save size-14">&nbsp;</i></button>
+<button name="submit" value="1" type="submit" class="tiny radius">Berechnen&nbsp;<i class="fi-refresh size-16">&nbsp;</i></button>
 
 <?php echo form_close();?>

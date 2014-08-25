@@ -166,7 +166,7 @@ class factors extends Public_Controller
 		 {
 			$errMsg = 'Feld %s darf nur Dezimalzahlen mit max. 2 Vorkommastellen beinhalten. ';		
 		 }
-	  if ($dec < 0.01)
+	  if ($dec < 0.00)
 		 {
 			$errMsg = 'Feld %s muss einen wert gr&ouml;&szlig;er 0,00 enthalten. ';		
 		 }

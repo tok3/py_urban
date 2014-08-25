@@ -109,7 +109,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array('ramstrg_users_carrier_m');
+$autoload['model'] = array('general_m');
 
 
 /* End of file autoload.php */
