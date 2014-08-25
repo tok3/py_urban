@@ -8,7 +8,7 @@
  * @author        Jerel Unruh - PyroCMS Dev Team
  * @website        http://unruhdesigns.com
  */
-class Events_Trakoka {
+class Events_mh {
     
    protected $ci;
     
@@ -26,11 +26,11 @@ class Events_Trakoka {
 		// To execute the "run" method below you would use: Events::trigger('sample_event');
 		// in any php file within PyroCMS, even another module.
 		Events::register('sample_event', array($this, 'run'));
+$this->ci->session->set_userdata('redirect_to', 'mh');
     }
     
     public function run()
     {
-        $this->ci->load->model('trakoka/general_m');
         
         // we're fetching this data on each front-end load. You'd probably want to do something with it IRL
 		//        $this->ci->sample_m->limit(5)->get_all();
