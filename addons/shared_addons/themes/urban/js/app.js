@@ -38,4 +38,6 @@ $(document).ready(function()
 $('div.pagination').next().addClass('pagination');
 $("div.pagination ul").first().addClass('pagination');
 
+
+
 });
