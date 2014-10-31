@@ -27,6 +27,9 @@ class Events_mh {
 		// in any php file within PyroCMS, even another module.
 		Events::register('sample_event', array($this, 'run'));
 $this->ci->session->set_userdata('redirect_to', 'mh');
+
+
+
     }
     
     public function run()

@@ -19,7 +19,7 @@ $lang['regex_match']		= "Das Feld %s ist nicht im richtigen Format.";
 $lang['matches']	   		= "Das Feld %s muss mit dem Feld %s &uuml;bereinstimmen.";
 $lang['is_natural']			= "Das Feld %s darf nur positive Zahlen enthalten.";
 $lang['is_natural_no_zero']	= "Das Feld %s darf nur Zahlten grö&szlig;er Null enthalten.";
-
+$lang['less_than']				= 'Das Feld %s muss eine Zahl kleiner %s enthalten.';
 
 /* End of file form_validation_lang.php */
 /* Location: ./system/language/german/form_validation_lang.php */

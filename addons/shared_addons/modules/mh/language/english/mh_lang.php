@@ -76,4 +76,3 @@ $lang['mh:trans_distances'] = 'Entfernung in KM bis';
 
 
 
-?>

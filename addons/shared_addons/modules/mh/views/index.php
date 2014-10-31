@@ -48,13 +48,13 @@
 
 		<div class="large-6 columns">
 
-		  <label>Land:</label> 
+		  <label>Land: *</label> 
 		  <?php echo $formfields['country_from'];?>
 		</div>
 
 
 		<div class="large-6 columns">
-		  <label>Abgangsort / PLZ:</label> 
+		  <label>Abgangsort / PLZ: *</label > 
 		  <?php echo $formfields['location_from'];?>
 		</div>
 
@@ -69,13 +69,30 @@
 		<div class="large-6 columns">
 
 		  <label>Land:</label> 
-		  <?php echo $formfields['country_to'];?>
+<!-- 		  <?php echo $formfields['country_to'];?> -->
+<select name="formdata[country_to]">
+<option value="DE" selected="selected">Deutschland (DE)</option>
+</select>
 		</div>
 
 
 		<div class="large-6 columns">
-		  <label>Empfangsort / PLZ:</label> 
-		  <?php echo $formfields['location_to'];?>
+		  <label>Empfangsort: *</label> 
+<?
+
+$options = array(
+																						 ''=>'Bitte w&auml;hlen',
+'63741, Nilkheim '=>'Werk II Aschaffenburg-Nilkheim',
+'63743,Carl-von-Linde-Platz'=>'Werk I Aschaffenburg-Schweinheim - Zentrale',
+'63796, Hanauer Landstr. 100'=>'Werk III Kahl',
+'63937, Breitendieler Str. 20'=>'Werk IV Weilbach'
+                );
+
+$fd =   isset($_POST['formdata']) ? $_POST['formdata'] : array('location_to' => '');
+													   echo form_dropdown('formdata[location_to]', $options, $fd['location_to']);
+?>
+
+<!-- 		  <?php echo $formfields['location_to'];?> -->
 		</div>
 
 
