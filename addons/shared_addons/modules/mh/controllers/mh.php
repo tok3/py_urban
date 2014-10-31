@@ -147,7 +147,7 @@ class mh extends Public_Controller
 
                     $max_range = $this->get_limits('km'); // max entfernung 
 
-                    if($dist->distance->value > $max_range) // ist faktor fuer max entfernung hinterlegt
+                    if($dist->distance->value / 1000 > $max_range) // ist faktor fuer max entfernung hinterlegt
                     {
                         $info = $this->load->view('partials/exceeded_range',array('max_range' => $max_range),TRUE);
                     }
