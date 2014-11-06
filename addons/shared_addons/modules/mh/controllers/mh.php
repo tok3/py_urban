@@ -40,6 +40,9 @@ class mh extends Public_Controller
      */
     public function index($offset = 0)
     {
+
+        $this->portage_ref_m->getFactor('DE');
+
         $info = '';
         $errors = '';
 
@@ -78,8 +81,11 @@ class mh extends Public_Controller
 
 
         $this->form_validation->set_rules($validation_rules);
+        $man_input = '';
+
         if ($this->input->post('submit'))
         {
+
 			if ($this->form_validation->run() == FALSE)
             {
 
@@ -99,10 +105,14 @@ class mh extends Public_Controller
                 $to_country = $postFields['country_to'];
                 $to_location = $postFields['location_to'];
 
+                $lastPost = $this->session->userdata('post_fields');
+
+                
                 // km manuell eingegeben, daten nicht nochmal veruchen von gmaps zu ziehen
+
                 if(!$this->input->post('man_dist'))
                 {
-                    $dist  = 	  $this->get_addr_info($from_country . ' ' .$this->format->convert_spcialChars($from_location), $to_country . ' ' .$this->format->convert_spcialChars($to_location));	  
+                    $dist  =   $this->get_addr_info($from_country . ' ' .$this->format->convert_spcialChars($from_location), $to_country . ' ' .$this->format->convert_spcialChars($to_location));	  
                 }
                 else
                 {
@@ -111,7 +121,7 @@ class mh extends Public_Controller
                 }
 
                 
-                if(count($this->addr_errors)) // falsches gmaps ergebnis
+                if(count($this->addr_errors)) // FALLS GOOGLE MAPS KEIN ERGEBNIS ODER EIN FALSCHES LIEFERT
                 {
 
                     // input fuer manuelle distanzeingabe	  
@@ -123,57 +133,128 @@ class mh extends Public_Controller
                     $data['man_dist']  = form_input($conf);
                     
                     $info = $this->load->view('partials/man_price_info.php',$data,TRUE);
-
+                    $man_input = $info;
                 }
                 else
                 {
 
-                    if(!$this->input->post('man_dist')) // distanz wurde manuell eingegeben 
+                    if($this->input->post('man_dist')) // distanz wurde manuell eingegeben 
                     {
 
-                        $dist->vc_from = $this->get_vc($dist->origin_addr);
-                        $dist->vc_to = $this->get_vc($dist->dest_addr);
-                        $dist->price = $this->portage_ref_m->getPrice($dist->distance->value / 1000, $postFields['weight']);
-                    }
-                    else
-                    {
+                        $postFields['distance_km'] = $this->input->post('man_dist');
+
                         $dist = new stdClass();
                         $dist->distance = new stdClass();
 
-                        $dist->price = $this->portage_ref_m->getPrice($this->input->post('man_dist'), $postFields['weight']);
+                        $dist->price = $this->portage_ref_m->getPrice($postFields['distance_km'], $postFields['weight'], $postFields['country_from']);
                         $dist->distance->value = $this->input->post('man_dist');
                         $dist->distance->text = $this->input->post('man_dist') . ' km';
+
+                    }
+                    else
+                    {
+                        $postFields['distance_km'] = $dist->distance->value / 1000; 
+                        
+                        $dist->vc_from = $this->get_vc($dist->origin_addr);
+                        $dist->vc_to = $this->get_vc($dist->dest_addr);
+                        $dist->price = $this->portage_ref_m->getPrice($postFields['distance_km'], $postFields['weight'], $postFields['country_from']);
                     }
 
                     $max_range = $this->get_limits('km'); // max entfernung 
 
-                    if($dist->distance->value / 1000 > $max_range) // ist faktor fuer max entfernung hinterlegt
+                    if($postFields['distance_km'] > $max_range) // ist faktor fuer max entfernung hinterlegt
                     {
                         $info = $this->load->view('partials/exceeded_range',array('max_range' => $max_range),TRUE);
                     }
                     else
                     {
-                    $dist->post_fields = $postFields;
+                        $postFields['country_from_long'] = $this->getCountryByIso($postFields['country_from']);
+                        $postFields['country_to_long'] = $this->getCountryByIso($postFields['country_to']);
 
-
-                    $info = $this->load->view('partials/price_info.php',$dist,TRUE);
+                        $dist->post_fields = $postFields;
+                        if(!isset($dist->vc_to))
+                        {
+                            $dist->vc_to =  $this->get_vc( $postFields['location_to'] .', ' . $postFields['country_to_long'] );
+                        }
+                        $this->session->set_userdata('calcData',$dist);
+                        if(!isset($dist->post_fields['mnt_unit']))
+                        {
+                            $dist->post_fields['mnt_unit'] = '';
+                        }
+                        $dist->cost_per_unit = $this->costPerUnit();
+                        $info = $this->load->view('partials/price_info.php',$dist,TRUE);
                     }
                 }
             }
         }
+
+
+
+  
         // --------------------------------------------------------------------
         $this->template
             ->title($this->module_details['name'])
             ->set('calendar_link',site_url('showCal/'.date('Y/m/d',time())))
             ->set('formfields',$this->get_formfields())
             ->set('info',$info)
+            ->set('man_inp',$man_input)
             ->set('errors',$errors)
             ->set('backlink',$this->router->fetch_module() .'/'. $this->router->fetch_class())
             ->build('index')
             ;
     }
 
+    // --------------------------------------------------------------------
+    /**
+     * kalkulatorische kosten por einheit
+     * 
+     * @access 	public	
+     * @param 		
+     * @return 		
+     * 
+     */
+    public function costPerUnit()
+    {
+        $data = $this->session->userdata('calcData');
+        $info = $data->post_fields;
+        if($info['mnt_unit'] < 1)
+        {
+            return FALSE;
+        }
 
+        
+        $weightPerUnit = $info['weight'] / $info['mnt_unit'];
+  
+
+        $staffelung = array(1,10,100,300,1000,1500);
+        $storage = array();
+
+
+        foreach($staffelung as $key => $mnt)
+        {
+
+            $kg = $mnt * $weightPerUnit;
+            $transp = $this->portage_ref_m->getPrice(round($info['distance_km'],0, PHP_ROUND_HALF_EVEN), $kg, $info['country_from']);
+            if($transp != FALSE)
+            {
+
+                $storage[$key]['mnt'] = $mnt;
+                $storage[$key]['kg'] = number_format($kg, 2, ',', ' ');
+                $storage[$key]['transp_per_unit'] = $this->format->displCurr($transp->portage_eur / $mnt, TRUE) ;
+                $storage[$key]['transp_compl'] = $this->format->displCurr($transp->portage_eur, TRUE);
+
+            }
+
+        }
+
+        array_unshift($storage, lang('mh:t_heading_cost_per_unit'));
+        $this->load->library('table');
+        $tmpl = array ( 'table_open'  => '<table border="0" cellpadding="0" cellspacing="0" class="table" id="tablePPU">' );
+
+        $this->table->set_template($tmpl);
+
+        return  '<h6><strong>Preisindex</strong></h6>' .$this->table->generate($storage);
+    }
     // --------------------------------------------------------------------
     /**
      * adresse für ausgabe formatieren
@@ -187,23 +268,23 @@ class mh extends Public_Controller
 
         if($segments != 3 && $segments != 4)
         {
-			return FALSE;
+            return FALSE;
         }
 
         if($segments == 3)
         {
-			$line1 = $tmp[0];  
-			$line2 = $tmp[1];  
-			$line3 = $tmp[2];  
+            $line1 = $tmp[0];  
+            $line2 = $tmp[1];  
+            $line3 = $tmp[2];  
         }
         if($segments == 4)
         {
-			$line1 = $tmp[0] . ' ' .$tmp[1];  
-			$line2 = $tmp[2];  
-			$line3 = $tmp[3];  
+            $line1 = $tmp[0] . ' ' .$tmp[1];  
+            $line2 = $tmp[2];  
+            $line3 = $tmp[3];  
         }
 
-        $retVal = '<ul class="vcard">
+        $retVal = '<ul class="vcard"  style="width:99%">
 				   <!--<li class="">' . $line1 . '</li>-->
 				   <li class="fn street-address">' . $line2 . '</li>
 				   <li class="locality">' . $line3 . '</li>
@@ -216,46 +297,27 @@ class mh extends Public_Controller
     function get_addr_info($_from, $_to)
     {
 
-//       $retVal->distance = new stdClass();
         /*
           get_addr_info('DE 65185', 'DE 60323');
-        */	  
+          //  $dist = $this->googlemaps->get_dist('DE 65185', 'mailand');
+          */	  
         $dist = $this->googlemaps->get_dist($_from, $_to);
-
-        //  $dist = $this->googlemaps->get_dist('DE 65185', 'mailand');
-      
 
         if($dist->status != 'OK')
         {
             $this->addr_errors['status'] = '!OK';
 
             return $dist;
-
         }
 
-
+        
         if(!property_exists ($dist->rows[0]->elements[0],'distance'))
         {
             $this->addr_errors['no_property_distance'] = 'Keine Distanz';
 
             return $dist;
         }
-/*
-  if(!property_exists ($dist->rows[0]->elements[0],'origin_addresses'))
-  {
-  $this->addr_errors['no_origin_addr'] = 'Keine Ursprungsadesse gefunden';
 
-  return $dist;
-  }
-
-  if(!property_exists ($dist->rows[0]->elements[0],'destination_addresses'))
-  {
-  $this->addr_errors['no_dest_addr'] = 'Keine Zieladresse gefunden';
-
-  return $dist;
-  }
-*/    
-        //	  $dist->rows[0]->elements[0]->distance->value /= 1000;
         $retVal['distance'] = $dist->rows[0]->elements[0]->distance;
         $retVal['status'] = $dist->rows[0]->elements[0]->status;
         $retVal['origin_addr'] = $dist->origin_addresses[0];
@@ -280,7 +342,7 @@ class mh extends Public_Controller
         $namePreFx = '';
         $idPreFx = 'weight_';
 
-        $_fields = array('country_from','country_to','location_from','location_to','country_from','weight'); 
+        $_fields = array('country_from','country_to','location_from','location_to','country_from','weight','mnt_unit'); 
 
         foreach($_fields as $key => $field)
         {
@@ -302,11 +364,12 @@ class mh extends Public_Controller
 
         $fields['weight']->type = 'input';
 
+        $fields['mnt_unit']->type = 'input';
 
 
         if(is_array($this->input->post($postName)))
         {
-			foreach($this->input->post($postName) as $name => $value)
+            foreach($this->input->post($postName) as $name => $value)
             {
                 $fields[$name]->value = $value;
             }
@@ -314,27 +377,27 @@ class mh extends Public_Controller
         foreach ($fields as $key => $field)
         {
 
-			$field->name = $key;
-			$field->type;
-			$value = '';
-			if(isset($field->value))
+            $field->name = $key;
+            $field->type;
+            $value = '';
+            if(isset($field->value))
             {
                 $value = $field->value;
 
             }
 
 			
-			// standard input	  
-			$conf = array(
+            // standard input	  
+            $conf = array(
                 'name'        => $postName . '[' . $field->name . ']',
                 'id'          => $key  . $field->name,
                 'value'       => $value,
             );
 
-			$formfields[$namePreFx . $field->name] = form_input($conf);
+            $formfields[$namePreFx . $field->name] = form_input($conf);
 
 
-			if($field->type == 'dropdown')
+            if($field->type == 'dropdown')
             {
 
                 if(isset($field->selected) && $value == '')
@@ -346,7 +409,6 @@ class mh extends Public_Controller
 
             }
         }
-
         return $formfields;	  
     }
 
@@ -373,22 +435,21 @@ class mh extends Public_Controller
 
         if($_unit != '' && isset($limits[$_unit]))	
         {
-			return $limits[$_unit];
+            return $limits[$_unit];
         }
         return $limits;
     }
+
     // --------------------------------------------------------------------
-
-    function test()
+    /**
+     * get countryname by iso 
+     * 
+     */
+    function getCountryByIso($_iso2 = DE)
     {
-        ini_set('allow_url_fopen',0);
 
-        $dist = $this->googlemaps->get_dist('DE 65185', 'mailand');
-
-        echo "<pre><code>";
-        print_r($dist);
-        echo "</code></pre>";
-	   
+        $countries = $this->general_m->get_active_countries();
+        return $countries[$_iso2];
     }
     // --------------------------------------------------------------------
    

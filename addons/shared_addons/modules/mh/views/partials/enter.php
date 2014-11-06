@@ -1,19 +1,5 @@
-					  <?php echo form_open('mh/index/');?>
-<fieldset>
-  <legend>Kalkulatorische Transportkostenermittlung</legend>
-
-  <div class="row hide"> 
-	<div class="large-12 columns left">
-	  <label>
-		<a href="<?php echo $backlink;?>"><i class="fi-arrow-left"></i>&nbsp;Zur&uuml;ck</a>
-		<hr>
-	  </label>
-	</div>
-
-  </div> <!-- ende row -->
 
 
-<span id="enterRows" class="<?php echo ($info && !$man_inp ? 'hide' : '')  ?>">
   <div class="row"> 
 	<div class="large-6 columns">
 	  <fieldset>
@@ -102,27 +88,3 @@ $fd =   isset($_POST['formdata']) ? $_POST['formdata'] : array('location_to' => 
 
 
   </div> <!-- ende row -->
-</span> <!-- /#enterRows -->
-<?php echo $info;?>
-  
-</fieledset>
-
-<?php if ( !$info ) : ?>
-
-<span style="float:right">
-                                                           
-<button name="submit" value="1" type="submit" class="tiny radius">Berechnen&nbsp;<i class="fi-refresh size-18">&nbsp;</i></button>
-</span>
-<?php endif; ?>
-<?php if ( $man_inp ) : ?>
-
-<span style="float:right">
-                                                           
-<button name="submit" value="1" type="submit" class="tiny radius">Berechnen&nbsp;<i class="fi-refresh size-18">&nbsp;</i></button>
-</span>
-<?php endif; ?>
-
-
-<?php echo form_close();?>
-
-

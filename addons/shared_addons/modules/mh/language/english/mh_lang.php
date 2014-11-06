@@ -75,4 +75,6 @@ $lang['mh:trans_weights'] = 'Gewicht in KG bis';
 $lang['mh:trans_distances'] = 'Entfernung in KM bis';
 
 
+$lang['mh:t_heading_cost_per_unit'] = array('Anzahl','KG', 'Kosten/Einh.','Kosten ges.');
+
 
