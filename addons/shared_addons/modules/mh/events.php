@@ -34,7 +34,12 @@ $this->ci->session->set_userdata('redirect_to', 'mh');
     
     public function run()
     {
-        
+        if ((!isset($this->ci->current_user->id)) && ($this->ci->uri->segment(1) == 'mh'))
+        {
+			redirect('users/login');
+			return FALSE;
+        }
+
         // we're fetching this data on each front-end load. You'd probably want to do something with it IRL
 		//        $this->ci->sample_m->limit(5)->get_all();
     }

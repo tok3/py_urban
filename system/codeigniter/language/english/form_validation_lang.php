@@ -14,7 +14,7 @@
  * http://opensource.org/licenses/OSL-3.0
  * If you did not receive a copy of the license and are unable to obtain it
  * through the world wide web, please send an email to
- * licensing@ellislab.com so we can send you a copy immediately.
+ * licensing@ellislab.com so we can send ≈you a copy immediately.
  *
  * @package		CodeIgniter
  * @author		EllisLab Dev Team
