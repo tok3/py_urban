@@ -49,7 +49,6 @@ class portage_ref extends Public_Controller
    {
 
 
-
 	  if($this->input->post('submit'))
 		 {
 			$portRef = $this->input->post('portRef');
@@ -247,7 +246,7 @@ $this->table->set_template($tmpl);
 	  $conf = array(
 					'name'        => 'portRef[' . $id . ']',
 					'id'          => 'portRef' . $id,
-					'class'          => 'inpPortRef',
+					'class'          => 'inp-PortRef',
 					'maxlength'   => 12,
 					'value'       => $this->format->displCurr($value),
 					);
