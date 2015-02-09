@@ -105,7 +105,7 @@ if($this->input->post('man_dist'))
 
 	  <div class="large-3 columns left" >
 	    <p>
-	      <label>Kalkulatorischer Transportpreis (Stück / Kg):</label> 
+	      <label>Kalkulatorischer Transportpreis (Mengeneinheit pro Kg):</label> 
 
 	      <input type="text" name="formdata[mnt_unit]" value="<?php echo $post_fields['mnt_unit'];?>">
 	      </p>
@@ -121,7 +121,7 @@ if($this->input->post('man_dist'))
                                          <a href="mh/index" class="button tiny radius success"><i class="fi-arrow-left size-18">&nbsp;</i>&nbsp;Zur&uuml;ck / Neue Eingabe</a>
 <span style="float:right">
 <button name="submit" value="1" type="submit" class="tiny radius">Transportberechnung nach St&uuml;ck&nbsp;<i class="fi-price-tag size-18">&nbsp;</i></button>
-<button name="stck" value="1" type="submit" class="tiny radius">Verbindliche Preisanfrage&nbsp;<i class="fi-info size-18">&nbsp;</i></button>
+<a href="<?php echo site_url($this->router->fetch_module().'/mailkram');?>"name="stck" class="button tiny radius">Verbindliche Preisanfrage&nbsp;<i class="fi-info size-18">&nbsp;</i></a>
     </div> <!-- /columns -->
   </div> <!-- /row -->
 

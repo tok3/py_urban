@@ -98,7 +98,7 @@ class mh extends Public_Controller
             {
 
                 $postFields = $this->input->post('formdata') ;
-
+                
                 $from_country = $postFields['country_from'];
                 $from_location = $postFields['location_from'];
 
@@ -107,6 +107,7 @@ class mh extends Public_Controller
 
                 $lastPost = $this->session->userdata('post_fields');
 
+                
                 
                 // km manuell eingegeben, daten nicht nochmal veruchen von gmaps zu ziehen
 
@@ -141,7 +142,7 @@ class mh extends Public_Controller
                     if($this->input->post('man_dist')) // distanz wurde manuell eingegeben 
                     {
 
-                        $postFields['distance_km'] = $this->input->post('man_dist');
+                        $postFields['distance_km'] = $this->format->curr2Dec($this->input->post('man_dist'));
 
                         $dist = new stdClass();
                         $dist->distance = new stdClass();
@@ -188,9 +189,10 @@ class mh extends Public_Controller
             }
         }
 
+        
+        
+//        $this->session->set_userdata($postFields);
 
-
-  
         // --------------------------------------------------------------------
         $this->template
             ->title($this->module_details['name'])
@@ -252,8 +254,11 @@ class mh extends Public_Controller
         $tmpl = array ( 'table_open'  => '<table border="0" cellpadding="0" cellspacing="0" class="table" id="tablePPU">' );
 
         $this->table->set_template($tmpl);
+        $p_index = $this->table->generate($storage);
 
-        return  '<h6><strong>Preisindex</strong></h6>' .$this->table->generate($storage);
+        $this->session->set_userdata('preisindex', $p_index);
+
+        return  '<h6><strong>Preisindex</strong></h6>' . $p_index;
     }
     // --------------------------------------------------------------------
     /**
@@ -452,5 +457,80 @@ class mh extends Public_Controller
         return $countries[$_iso2];
     }
     // --------------------------------------------------------------------
-   
+
+    function mailkram()
+    {
+
+        $this->load->helper('file');
+        $template = read_file('./addons/shared_addons/modules/mh/files/calc_mail_tmpl.php');
+
+
+        $calcData = $this->session->userdata('calcData');
+        $post_fileds = $this->session->userdata('post_fileds');
+        $costPerUnit = $calcData->cost_per_unit;
+        
+        $sNr['price_info'] =  $this->session->userdata('price_info');
+        $sNr['vc_to'] =  $calcData->vc_to;
+        $sNr['vc_from'] =  isset($calcData->vc_from) ? $calcData->vc_from : '<ul class="vcard" style="width:99%">
+<li class="fn street-address">n/a</li>
+<li class="locality">Deutschland (DE)</li>
+</ul>';
+        $sNr['distance'] =  number_format($calcData->post_fields['distance_km'], 2, ',', '.');
+        $sNr['weight'] =  number_format($calcData->post_fields['weight'], 2, ',', '.');
+        $sNr['price'] =  number_format($calcData->price->portage_eur, 2, ',', '.');
+        $sNr['cost_per_unit'] = '<h7>Preisindex ('.$calcData->post_fields['mnt_unit'] .' ME pro KG )</h7><br><br>'. $costPerUnit;
+
+        $search =  explode(',','%%'.implode('%%, %%', array_keys($sNr)).'%%');
+
+//$search  = array('%%price_info%%');
+        $replace = $sNr;
+
+        $msg =  str_replace($search, $replace, $template);
+
+        $py_settings = $this->settings->get_all();
+        $py_variables = $this->variables->get_all();
+
+        $config['protocol'] = $py_settings['mail_protocol'];
+        $this->load->library('email');
+
+        if($config['protocol'] == 'smtp')
+        {
+
+            $config['smtp_host'] = $py_settings['mail_smtp_host'];
+            $config['smtp_user'] = $py_settings['mail_smtp_user'];
+            $config['smtp_pass'] = $py_settings['mail_smtp_pass'];
+            $config['smtp_port'] = $py_settings['mail_smtp_port'];
+        }
+        $config['mailpath'] = $py_settings['mail_sendmail_path'];
+        $config['charset'] = 'utf-8';
+        $config['wordwrap'] = TRUE;
+
+        $this->email->initialize($config);
+
+        $this->email->from($this->session->userdata('email'));
+        $this->email->to($py_variables['mh_mail_receiver']); 
+        $this->email->cc($this->session->userdata('email'));
+
+        $this->email->subject($py_variables['mh_mail_subject']);
+        $this->email->message($msg);	
+
+
+        if($this->email->send())
+        {
+            redirect(site_url($this->router->fetch_module().'/success'));
+        }
+    }
+// --------------------------------------------------------------------
+    function success()
+    {
+        $py_variables = $this->variables->get_all();
+
+        $this->template
+            ->set('receiver',$py_variables['mh_mail_receiver'])
+            ->build('mail_success')
+            ;
+    }
+
+// --------------------------------------------------------------------
+    
 }
