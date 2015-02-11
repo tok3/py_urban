@@ -355,7 +355,6 @@ class mh extends Public_Controller
         }
 
 
-
         $fields['country_from']->type = 'dropdown';
         $fields['country_from']->options  = $this->general_m->get_active_countries();
         $fields['country_from']->selected  = 'DE';
@@ -513,7 +512,6 @@ class mh extends Public_Controller
 
         $this->email->subject($py_variables['mh_mail_subject']);
         $this->email->message($msg);	
-
 
         if($this->email->send())
         {

@@ -1,6 +1,6 @@
 <?PHP defined('BASEPATH') or exit('No direct script access allowed');
 class Module_mh extends Module {
-   public $version = '0.0.5';
+   public $version = '0.0.6';
    public $namespace = "mh";
    public function info()
    {
@@ -14,7 +14,7 @@ class Module_mh extends Module {
 				   'frontend' => TRUE,
 				   'backend' => true,
 				   'roles' => array(
-									'mh_user', 'mh_admin'
+									'mh_admin'
 									)
 
 				   );
@@ -448,33 +448,6 @@ class Module_mh extends Module {
    }
    public function upgrade($old_version)
    {
-	  // --------------------------------------------------------------------
-	  /*tabelle preise, entfernung und gewicht, referenz*/
-	  $this->dbforge->drop_table('mh_calc_factors');
-
-	  $mh_calc_factors = array(
-							   'id' => array(
-											 'type' => 'INT',
-											 'constraint' => '11',
-											 'auto_increment' => TRUE
-											 ),
-							   'country_id' => array(
-													 'type' => 'INT',
-													 'constraint' => '11'
-													 ),
-							   'factor' => array(
-												 'type' => 'DECIMAL',
-												 'constraint' => array(4,2),
-												 'unsigned' => FALSE,
-												 )
-
-							   );
-	  $this->dbforge->add_field($mh_calc_factors);
-	  $this->dbforge->add_key('id', TRUE);
-	  $this->dbforge->create_table('mh_calc_factors') ;
-
-	  // Your Upgrade Logic
-	  /*tabelle mit exakten daten und zeiten wenn rampe nicht verfügbar ist*/
 
 	  return TRUE;
 		

@@ -3,5 +3,5 @@
 /**
 *
 */
-$lang['mh:role_mh_user']                = 'Edit Orders';
-$lang['mh:role_mh_admin']            = 'Access Gateways';
+
+$lang['mh:role_mh_admin']            = 'Product Admin';
