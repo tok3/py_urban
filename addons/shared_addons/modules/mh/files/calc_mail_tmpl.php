@@ -602,7 +602,24 @@ body.outlook p {
 
 @media only screen and (max-width: 600px) {
 
-  table[class="body"] img {
+    #eTable TD:first-child
+    {
+        width:50% !important;
+    white-space:nowrap !important;
+    }
+    #tablePPU TD
+    {
+        width:25% !important;
+        white-space:nowrap !important;
+    }
+    #tablePPU TH
+    {
+    white-space:nowrap !important;
+
+    }
+
+    
+    table[class="body"] img {
     width: auto !important;
     height: auto !important;
   }
@@ -849,7 +866,7 @@ text-align:right;
                   <tr>
                     <td class="wrapper last">
 
-                      <table class="twelve columns">
+                      <table class="">
                         <tr>
                           <td>
                             <h2>Transportkosten</h2>

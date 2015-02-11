@@ -107,7 +107,7 @@ if($this->input->post('man_dist'))
 	    <p>
 	      <label>Kalkulatorischer Transportpreis (Anz. Mengeneinheit):</label> 
 
-	      <input type="text" name="formdata[mnt_unit]" value="<?php echo $post_fields['mnt_unit'];?>">
+	      <input type="number" min="0" name="formdata[mnt_unit]" value="<?php echo $post_fields['mnt_unit'];?>">
 	      </p>
 	    </div>
 
