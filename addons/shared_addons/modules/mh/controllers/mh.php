@@ -474,10 +474,11 @@ class mh extends Public_Controller
 <li class="fn street-address">n/a</li>
 <li class="locality">Deutschland (DE)</li>
 </ul>';
+        $weightPer_ME = $calcData->post_fields['weight'] / $calcData->post_fields['mnt_unit'];
         $sNr['distance'] =  number_format($calcData->post_fields['distance_km'], 2, ',', '.');
         $sNr['weight'] =  number_format($calcData->post_fields['weight'], 2, ',', '.');
         $sNr['price'] =  number_format($calcData->price->portage_eur, 2, ',', '.');
-        $sNr['cost_per_unit'] = '<h7>Preisindex ('.$calcData->post_fields['mnt_unit'] .' ME pro KG )</h7><br><br>'. $costPerUnit;
+        $sNr['cost_per_unit'] = '<h7>Preisindex ('.$calcData->post_fields['mnt_unit'] .' ME = '.$weightPer_ME.' KG/ME )</h7><br><br>'. $costPerUnit;
 
         $search =  explode(',','%%'.implode('%%, %%', array_keys($sNr)).'%%');
 
