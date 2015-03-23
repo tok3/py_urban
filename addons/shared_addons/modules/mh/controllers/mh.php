@@ -129,9 +129,9 @@ class mh extends Public_Controller
 // --------------------------------------------------------------------
                 
 /**
-* unterscheidung lademeter oder kg
-* 
-*/
+ * unterscheidung lademeter oder kg
+ * 
+ */
                 if($this->input->post('unit') == 'mtr')
                 {
                     $mtrFactor = 800;
@@ -162,7 +162,7 @@ class mh extends Public_Controller
                 }
                 else
                 {
-                        $postFields['weight'] = $this->format->curr2Dec($postFields['weight']);
+                    $postFields['weight'] = $this->format->curr2Dec($postFields['weight']);
 
                     
                     if($this->input->post('man_dist')) // distanz wurde manuell eingegeben 
@@ -191,8 +191,8 @@ class mh extends Public_Controller
 // exakter preis für anzahl also, liter stück oder sonst was 
                     if(isset($postFields['exact_unit']) && $postFields['exact_unit'] > 0)
                     {
-                $weightExactUnit = $dist->price->portage_eur / $postFields['exact_unit'] ;
-                $dist->exactPrice = $this->format->displCurr($weightExactUnit);
+                        $weightExactUnit = $dist->price->portage_eur / $postFields['exact_unit'] ;
+                        $dist->exactPrice = $this->format->displCurr($weightExactUnit);
 
                     }
                     else
@@ -237,9 +237,9 @@ class mh extends Public_Controller
 //        $this->session->set_userdata($postFields);
 
 
-$rdVal = $this->input->post('unit');
-$switchUnit = form_radio('unit', 'kg', (($rdVal == 'kg' || $rdVal == '')  ? true : false)) . 'KG' . 
-              '<br>'.form_radio('unit', 'mtr', ($rdVal == 'mtr' ? true : false)) . 'Lademeter';
+        $rdVal = $this->input->post('unit');
+        $switchUnit = form_radio('unit', 'kg', (($rdVal == 'kg' || $rdVal == '')  ? true : false)) . 'KG' . 
+            '<br>'.form_radio('unit', 'mtr', ($rdVal == 'mtr' ? true : false)) . 'Lademeter';
 
         // --------------------------------------------------------------------
         $this->template
@@ -505,28 +505,28 @@ $switchUnit = form_radio('unit', 'kg', (($rdVal == 'kg' || $rdVal == '')  ? true
     }
     // --------------------------------------------------------------------
 /**
-* validation rule distance limit check
-* 
-*/
+ * validation rule distance limit check
+ * 
+ */
 
-public function distlimit_check($str)
+    public function distlimit_check($str)
 	{
 
 
 	
-$errMsg = 0;
-if(!preg_match('/^[a-zA-Z0-9.,]+$/', $str))
-{
-$errMsg = 'Bitte Eingabe in Feld %s prüfen';
-}
+        $errMsg = 0;
+        if(!preg_match('/^[a-zA-Z0-9.,]+$/', $str))
+        {
+            $errMsg = 'Bitte Eingabe in Feld %s prüfen';
+        }
 
 
-$denum =  $this->format->displCurr($str);
-$dec =  $this->format->curr2Dec($denum, 2, TRUE);
-if($dec > $this->get_limits('kg'))
-{
-$errMsg = 'Feld %s kann Maximalwert von ' . $this->get_limits('kg') . ' KG &uuml;berschritten!';
-}
+        $denum =  $this->format->displCurr($str);
+        $dec =  $this->format->curr2Dec($denum, 2, TRUE);
+        if($dec > $this->get_limits('kg'))
+        {
+            $errMsg = 'Feld %s kann Maximalwert von ' . $this->get_limits('kg') . ' KG &uuml;berschritten!';
+        }
 		if ($errMsg !== 0)
 		{
 			$this->form_validation->set_message('distlimit_check',$errMsg);
@@ -630,8 +630,8 @@ $errMsg = 'Feld %s kann Maximalwert von ' . $this->get_limits('kg') . ' KG &uuml
 
 // --------------------------------------------------------------------
 
-function mailtest()
-{
+    function mailtest()
+    {
 
         $py_settings = $this->settings->get_all();
         $py_variables = $this->variables->get_all();
@@ -672,14 +672,14 @@ function mailtest()
         $this->email->message('test');	
         if($this->email->send())
         {
-echo "ja";
+            echo "ja";
         }
 
 
 
 
 
-}
+    }
 
     // --------------------------------------------------------------------
     
