@@ -35,6 +35,8 @@ class mh extends Public_Controller
 
     }
 
+    
+    // --------------------------------------------------------------------
     /**
      * All items
      */
@@ -54,8 +56,8 @@ class mh extends Public_Controller
             array(
                 'field'   => 'formdata[weight]',
                 'label'   => 'Gewicht in KG',
-//                'rules'   => 'required|less_than['.($this->get_limits('kg') + 1) .']'
-                                'rules'   => 'required'
+                //'rules'   => 'required|less_than['.($this->get_limits('kg') + 1) .']',
+                'rules'   => 'required',
             ),
             array(
                 'field'   => 'formdata[country_from]',
@@ -474,6 +476,7 @@ class mh extends Public_Controller
         return $countries[$_iso2];
     }
     // --------------------------------------------------------------------
+    // --------------------------------------------------------------------
 
     function mailkram()
     {
@@ -494,14 +497,11 @@ class mh extends Public_Controller
 </ul>';
         $weightPer_ME = $calcData->post_fields['weight'] / $calcData->post_fields['mnt_unit'];
         $sNr['distance'] =  number_format($calcData->post_fields['distance_km'], 2, ',', '.');
-        $sNr['weight'] =  number_format($calcData->post_fields['weight'], 2, ',', '.');
-        $sNr['price'] =  number_format($calcData->price->portage_eur, 2, ',', '.');
 
-        $sNr['cost_per_unit'] = '';
-            if($calcData->post_fields['mnt_unit'] != '')
-            {
-                $sNr['cost_per_unit'] = '<h7>Preisindex ('.$calcData->post_fields['mnt_unit'] .' ME = '.$weightPer_ME.' KG/ME )</h7><br><br>'. $costPerUnit;
-            }
+        $sNr['weight'] =  number_format($this->format->float($calcData->post_fields['weight']), 2, ',', '.');
+        $sNr['price'] =  number_format($calcData->price->portage_eur, 2, ',', '.');
+        $sNr['cost_per_unit'] = '<h7>Preisindex ('.$calcData->post_fields['mnt_unit'] .' ME = '.$weightPer_ME.' KG/ME )</h7><br><br>'. $costPerUnit;
+
         $search =  explode(',','%%'.implode('%%, %%', array_keys($sNr)).'%%');
 
 //$search  = array('%%price_info%%');
@@ -533,8 +533,19 @@ class mh extends Public_Controller
         $this->email->to($py_variables['mh_mail_receiver']); 
         $this->email->cc($this->session->userdata('email'));
 
-        $this->email->subject($py_variables['mh_mail_subject']);
+        if(isset($py_variables['mh_mail_subject']))
+        {
+            $subject = $py_variables['mh_mail_subject'];
+        }
+        else
+        {
+            $subject = '';
+
+        }
+
+        $this->email->subject($subject);
         $this->email->message($msg);	
+        $this->email->send();
 
         if($this->email->send())
         {
@@ -545,12 +556,6 @@ class mh extends Public_Controller
     function success()
     {
         $py_variables = $this->variables->get_all();
-
-                if(!isset($py_variables['mh_mail_receiver']))
-        {
-            echo "Please set variable 'mh_mail_receiver' in Pyro Admin Panel";
-            die;
-        }
 
         $this->template
             ->set('receiver',$py_variables['mh_mail_receiver'])

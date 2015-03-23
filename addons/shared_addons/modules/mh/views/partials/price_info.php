@@ -91,7 +91,7 @@ if($this->input->post('man_dist'))
 	    <strong><?php echo $distance->text;?></strong>
 	  </p>
 	  <p>
-	    <label>Transporkosten f&uuml;r <?php echo $this->format->displCurr($post_fields['weight']);?> Kg:</label> 
+	    <label>Transporkosten f&uuml;r <?php echo $post_fields['weight'];?> Kg:</label> 
 	    <strong><?php echo $this->format->displCurr($price->portage_eur);?> &euro;</Strong>
 	  </p>
 	</div>
@@ -101,7 +101,8 @@ if($this->input->post('man_dist'))
 	<div class="row">
                                          
 	  <div class="large-6 columns">
-<!-- 
+                                         &nbsp;
+                                         <!--
                                          <input type="radio" name="kalkArt" value="vpe" id="artVPE" checked="checked" ><label for="artVPE">Mengeneinheit</label>
       <input type="radio" name="kalkArt" value="unt" id="artUnt"><label for="artUnt">Exact</label>
   -->

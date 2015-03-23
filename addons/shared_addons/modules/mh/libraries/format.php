@@ -213,7 +213,7 @@ class format
 
    /** --------------------------------------------------------------------
     *********************************************************************
-    |GELDBETRÄGE FÜR AUSGABE FORMATIEREN   
+    |GELDBETRÄGE FÜR AUSGABE FORMATIEREN    de !!
     -------------------------------------------------------------------- */
 
    function displCurr($_curr,$_currSign = FALSE)
@@ -222,6 +222,7 @@ class format
 		 {
     		$_curr = 0;
 		 }
+
 	  $retVal =  number_format(str_replace(",",".",$_curr), 2, ',', '.').'&#160;&euro;';
 
 	  if($_currSign == FALSE)
@@ -231,14 +232,31 @@ class format
 
 	  return $retVal;
 
-   } 
+   }
+// --------------------------------------------------------------------
+    // englische tauserder trennzeichen entfernen 
+        public function float($_dec)
+    {
+
+        if(strpos($_dec, ','))
+        {
+            $retParts =  explode ( '.' , $_dec);
+            
+            return    str_replace(',', '', $retParts[0]) . '.' . $retParts[1];
+
+        }
+        else
+        {
+            return $_dec;
+        }
+    }
    /* --------------------------------------------------------------------
     *********************************************************************
     Geldbeträge im DE Format in DEC für DB umwandeln
     --------------------------------------------------------------------*/
     
 
-   function curr2Dec($_curr, $_fract = 2)
+    function curr2Dec($_curr, $_fract = 2,$math = FALSE)
    {
 	  $_currDec = str_replace(',','.',$_curr);
 
@@ -251,6 +269,13 @@ class format
 
 	  $retVal =  number_format($_currDec, $_fract);
 
+      if($math == TRUE)
+      {
+          $retParts =  explode ( '.' , $retVal);
+          
+          $retVal = str_replace(',', '', $retParts[0]) . '.' . $retParts[1];
+      }
+      
 	  return $retVal;
 
    } 

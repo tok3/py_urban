@@ -57,11 +57,29 @@ class portage_ref_m extends MY_Model {
 
 
     }
-
     // --------------------------------------------------------------------
-   
+    public function dbDec($_dec)
+    {
+
+        if(strpos($_dec, ','))
+        {
+            $retParts =  explode ( '.' , $_dec);
+            
+            return    str_replace(',', '', $retParts[0]) . '.' . $retParts[1];
+
+        }
+        else
+        {
+            return $_dec;
+        }
+    }
+    // --------------------------------------------------------------------
+    
     public function getPrice($_dist, $_weight, $_country_from = 'DE')
     {
+
+         $_dist = $this->dbDec($_dist);
+         $_weight = $this->dbDec($_weight);
 
         $this->db->select('mh_portage_reference.portage_eur, mh_distances.km, mh_weight_range.kg');
         $this->db->from('mh_portage_reference');
@@ -74,7 +92,7 @@ class portage_ref_m extends MY_Model {
 
         $query = $this->db->get();
         $result = $query->result();
-	  
+//        echo $this->db->last_query();	  
         if(count($result) >= 1)
         {
             $conFactor = $result[0]->portage_eur * $this->getFactor($_country_from); 
