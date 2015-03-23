@@ -10,9 +10,10 @@ class portage_ref_m extends MY_Model {
 
     protected $_table;
     public function __construct()
-    {		
+    {
+
         parent::__construct();
-		
+        $obj =& get_instance();		
         /**
          * default table für rampensteuerung standorte 
          * 
@@ -61,6 +62,7 @@ class portage_ref_m extends MY_Model {
    
     public function getPrice($_dist, $_weight, $_country_from = 'DE')
     {
+
         $this->db->select('mh_portage_reference.portage_eur, mh_distances.km, mh_weight_range.kg');
         $this->db->from('mh_portage_reference');
         $this->db->join('mh_distances','mh_portage_reference.distance_id = mh_distances.id');

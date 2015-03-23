@@ -91,25 +91,42 @@ if($this->input->post('man_dist'))
 	    <strong><?php echo $distance->text;?></strong>
 	  </p>
 	  <p>
-	    <label>Transporkosten f&uuml;r <?php echo $post_fields['weight'];?> Kg:</label> 
+	    <label>Transporkosten f&uuml;r <?php echo $this->format->displCurr($post_fields['weight']);?> Kg:</label> 
 	    <strong><?php echo $this->format->displCurr($price->portage_eur);?> &euro;</Strong>
 	  </p>
 	</div>
 
 
 	<!-- dev -->
-	<div class="row"> 
+	<div class="row">
+                                         
 	  <div class="large-6 columns">
-	    &nbsp;
-	  </div>
+<!-- 
+                                         <input type="radio" name="kalkArt" value="vpe" id="artVPE" checked="checked" ><label for="artVPE">Mengeneinheit</label>
+      <input type="radio" name="kalkArt" value="unt" id="artUnt"><label for="artUnt">Exact</label>
+  -->
+                                         </div>
 
 	  <div class="large-3 columns left" >
-	    <p>
+	    <p  id="mePreis">
 	      <label>Kalkulatorischer Transportpreis (Anz. Mengeneinheit):</label> 
 
 	      <input type="number" min="0" name="formdata[mnt_unit]" value="<?php echo $post_fields['mnt_unit'];?>">
 	      </p>
-	    </div>
+	    <p id="exaterPreis" class="_hide">
+	      <label>Exakter Transportpreis pro Einheit:</label> 
+
+	      <input type="number" min="0" name="formdata[exact_unit]" value="<?php echo $post_fields['exact_unit'];?>">
+<?
+                                         if(isset($exactPrice)){
+            ?>
+                                         <strong><?php echo $this->format->displCurr($exactPrice);?> &euro;</Strong>
+<?
+                                         }
+            ?>
+	      </p>
+
+                                         </div>
 
 	  </div> <!-- /columns -->
 	</div> <!-- /row -->

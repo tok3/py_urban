@@ -54,7 +54,8 @@ class mh extends Public_Controller
             array(
                 'field'   => 'formdata[weight]',
                 'label'   => 'Gewicht in KG',
-                'rules'   => 'required|integer|less_than['.($this->get_limits('kg') + 1) .']'
+//                'rules'   => 'required|less_than['.($this->get_limits('kg') + 1) .']'
+                                'rules'   => 'required'
             ),
             array(
                 'field'   => 'formdata[country_from]',
@@ -138,7 +139,9 @@ class mh extends Public_Controller
                 }
                 else
                 {
+                        $postFields['weight'] = $this->format->curr2Dec($postFields['weight']);
 
+                    
                     if($this->input->post('man_dist')) // distanz wurde manuell eingegeben 
                     {
 
@@ -161,6 +164,21 @@ class mh extends Public_Controller
                         $dist->price = $this->portage_ref_m->getPrice($postFields['distance_km'], $postFields['weight'], $postFields['country_from']);
                     }
 
+                    
+// exakter preis für anzahl also, liter stück oder sonst was 
+                    if(isset($postFields['exact_unit']) && $postFields['exact_unit'] > 0)
+                    {
+                $weightExactUnit = $dist->price->portage_eur / $postFields['exact_unit'] ;
+                $dist->exactPrice = $this->format->displCurr($weightExactUnit);
+
+                    }
+                    else
+                    {
+
+                    }
+// ende exacter preise
+
+                    
                     $max_range = $this->get_limits('km'); // max entfernung 
 
                     if($postFields['distance_km'] > $max_range) // ist faktor fuer max entfernung hinterlegt
@@ -181,6 +199,8 @@ class mh extends Public_Controller
                         if(!isset($dist->post_fields['mnt_unit']))
                         {
                             $dist->post_fields['mnt_unit'] = '';
+                            $dist->post_fields['exact_unit'] = '';
+
                         }
                         $dist->cost_per_unit = $this->costPerUnit();
                         $info = $this->load->view('partials/price_info.php',$dist,TRUE);
@@ -223,11 +243,8 @@ class mh extends Public_Controller
         {
             return FALSE;
         }
-
         
-        $weightPerUnit = $info['weight'] / $info['mnt_unit'];
-  
-
+        $weightPerUnit = $info['weight'] / $this->format->curr2dec($info['mnt_unit']);
         $staffelung = array(1,10,100,300,1000,1500);
         $storage = array();
 
@@ -347,7 +364,7 @@ class mh extends Public_Controller
         $namePreFx = '';
         $idPreFx = 'weight_';
 
-        $_fields = array('country_from','country_to','location_from','location_to','country_from','weight','mnt_unit'); 
+        $_fields = array('country_from','country_to','location_from','location_to','country_from','weight','mnt_unit','exact_unit'); 
 
         foreach($_fields as $key => $field)
         {
@@ -369,6 +386,7 @@ class mh extends Public_Controller
         $fields['weight']->type = 'input';
 
         $fields['mnt_unit']->type = 'input';
+        $fields['exact_unit']->type = 'input';
 
 
         if(is_array($this->input->post($postName)))
@@ -478,8 +496,12 @@ class mh extends Public_Controller
         $sNr['distance'] =  number_format($calcData->post_fields['distance_km'], 2, ',', '.');
         $sNr['weight'] =  number_format($calcData->post_fields['weight'], 2, ',', '.');
         $sNr['price'] =  number_format($calcData->price->portage_eur, 2, ',', '.');
-        $sNr['cost_per_unit'] = '<h7>Preisindex ('.$calcData->post_fields['mnt_unit'] .' ME = '.$weightPer_ME.' KG/ME )</h7><br><br>'. $costPerUnit;
 
+        $sNr['cost_per_unit'] = '';
+            if($calcData->post_fields['mnt_unit'] != '')
+            {
+                $sNr['cost_per_unit'] = '<h7>Preisindex ('.$calcData->post_fields['mnt_unit'] .' ME = '.$weightPer_ME.' KG/ME )</h7><br><br>'. $costPerUnit;
+            }
         $search =  explode(',','%%'.implode('%%, %%', array_keys($sNr)).'%%');
 
 //$search  = array('%%price_info%%');
@@ -523,6 +545,12 @@ class mh extends Public_Controller
     function success()
     {
         $py_variables = $this->variables->get_all();
+
+                if(!isset($py_variables['mh_mail_receiver']))
+        {
+            echo "Please set variable 'mh_mail_receiver' in Pyro Admin Panel";
+            die;
+        }
 
         $this->template
             ->set('receiver',$py_variables['mh_mail_receiver'])

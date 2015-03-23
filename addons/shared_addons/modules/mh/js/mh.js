@@ -7,6 +7,7 @@ $('.delBtn').click(function(e) {
             e.preventDefault();
     });
 
+/*    
 $('#del_date').datetimepicker({
 	lang:'de',
 	timepicker:false,
@@ -21,5 +22,5 @@ $('#del_time').datetimepicker({
 	format:'H:i',
 step:30
 });
-
+*/
 });
