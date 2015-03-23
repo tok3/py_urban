@@ -490,7 +490,11 @@ if(!preg_match('/^[a-zA-Z0-9.,]+$/', $str))
 {
 $errMsg = 'Bitte Eingabe in Feld %s prüfen';
 }
-if($str > $this->get_limits('kg'))
+
+
+$denum =  $this->format->displCurr($str);
+$dec =  $this->format->curr2Dec($denum, 2, TRUE);
+if($dec > $this->get_limits('kg'))
 {
 $errMsg = 'Feld %s kann Maximalwert von ' . $this->get_limits('kg') . ' KG &uuml;berschritten!';
 }

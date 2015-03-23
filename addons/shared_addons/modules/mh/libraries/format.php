@@ -271,9 +271,7 @@ class format
 
       if($math == TRUE)
       {
-          $retParts =  explode ( '.' , $retVal);
-          
-          $retVal = str_replace(',', '', $retParts[0]) . '.' . $retParts[1];
+          $retVal = $this->float($retVal);
       }
       
 	  return $retVal;
