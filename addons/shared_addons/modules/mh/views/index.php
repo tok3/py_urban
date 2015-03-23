@@ -17,11 +17,10 @@
   <div class="row"> 
 	<div class="large-6 columns">
 	  <fieldset>
-		<legend>Gewicht</legend>
+		<legend>Eingabe</legend>
 
 		<div class="large-6 columns">
-
-		  <label>Kg: *</label> 
+<?php echo $units;?>
 		  <?php echo $formfields['weight'];?>
 		</div>
 

@@ -99,6 +99,8 @@ class mh extends Public_Controller
             else
             {
 
+                
+
                 $postFields = $this->input->post('formdata') ;
                 
                 $from_country = $postFields['country_from'];
@@ -122,6 +124,26 @@ class mh extends Public_Controller
                     $dist = FALSE; // distance wurde manuell eingegeben 
 
                 }
+
+
+// --------------------------------------------------------------------
+                
+/**
+* unterscheidung lademeter oder kg
+* 
+*/
+                if($this->input->post('unit') == 'mtr')
+                {
+                    $mtrFactor = 800;
+                    if($postFields['country_from'] != 'DE')
+                    {
+                        $mtrFactor *= 2;
+                    }
+                    
+                    $postFields['weight']  = $this->format->curr2dec($postFields['weight'],2, TRUE) * $mtrFactor;  
+                }
+// ende lademeter oder kg
+// --------------------------------------------------------------------
 
                 
                 if(count($this->addr_errors)) // FALLS GOOGLE MAPS KEIN ERGEBNIS ODER EIN FALSCHES LIEFERT
@@ -177,7 +199,7 @@ class mh extends Public_Controller
                     {
 
                     }
-// ende exacter preise
+// ende exakter preise
 
                     
                     $max_range = $this->get_limits('km'); // max entfernung 
@@ -214,10 +236,16 @@ class mh extends Public_Controller
         
 //        $this->session->set_userdata($postFields);
 
+
+$rdVal = $this->input->post('unit');
+$switchUnit = form_radio('unit', 'kg', (($rdVal == 'kg' || $rdVal == '')  ? true : false)) . 'KG' . 
+              '<br>'.form_radio('unit', 'mtr', ($rdVal == 'mtr' ? true : false)) . 'Lademeter';
+
         // --------------------------------------------------------------------
         $this->template
             ->title($this->module_details['name'])
             ->set('calendar_link',site_url('showCal/'.date('Y/m/d',time())))
+            ->set('units',$switchUnit)
             ->set('formfields',$this->get_formfields())
             ->set('info',$info)
             ->set('man_inp',$man_input)
@@ -366,6 +394,7 @@ class mh extends Public_Controller
         $idPreFx = 'weight_';
 
         $_fields = array('country_from','country_to','location_from','location_to','country_from','weight','mnt_unit','exact_unit'); 
+
 
         foreach($_fields as $key => $field)
         {
