@@ -56,8 +56,7 @@ class mh extends Public_Controller
             array(
                 'field'   => 'formdata[weight]',
                 'label'   => 'Gewicht in KG',
-                //'rules'   => 'required|less_than['.($this->get_limits('kg') + 1) .']',
-                'rules'   => 'required',
+                'rules'   => 'required|callback_distlimit_check',
             ),
             array(
                 'field'   => 'formdata[country_from]',
@@ -167,7 +166,7 @@ class mh extends Public_Controller
                     }
 
                     
-// exakter preis für anzahl also, liter stück oder sonst was 
+// exakter preis fÃ¼r anzahl also, liter stÃ¼ck oder sonst was 
                     if(isset($postFields['exact_unit']) && $postFields['exact_unit'] > 0)
                     {
                 $weightExactUnit = $dist->price->portage_eur / $postFields['exact_unit'] ;
@@ -281,7 +280,7 @@ class mh extends Public_Controller
     }
     // --------------------------------------------------------------------
     /**
-     * adresse für ausgabe formatieren
+     * adresse fÃ¼r ausgabe formatieren
      * 
      */
     function   get_vc($_addr)
@@ -476,6 +475,36 @@ class mh extends Public_Controller
         return $countries[$_iso2];
     }
     // --------------------------------------------------------------------
+/**
+* validation rule distance limit check
+* 
+*/
+
+public function distlimit_check($str)
+	{
+
+
+	
+$errMsg = 0;
+if(!preg_match('/^[a-zA-Z0-9.,]+$/', $str))
+{
+$errMsg = 'Bitte Eingabe in Feld %s prÃ¼fen';
+}
+if($str > $this->get_limits('kg'))
+{
+$errMsg = 'Feld %s kann Maximalwert von ' . $this->get_limits('kg') . ' KG &uuml;berschritten!';
+}
+		if ($errMsg !== 0)
+		{
+			$this->form_validation->set_message('distlimit_check',$errMsg);
+			return FALSE;
+		}
+		else
+		{
+			return TRUE;
+		}
+	}
+
     // --------------------------------------------------------------------
 
     function mailkram()
@@ -508,6 +537,9 @@ class mh extends Public_Controller
         $replace = $sNr;
 
         $msg =  str_replace($search, $replace, $template);
+// nachrichtende 
+// --------------------------------------------------------------------
+        
 
         $py_settings = $this->settings->get_all();
         $py_variables = $this->variables->get_all();
@@ -528,7 +560,6 @@ class mh extends Public_Controller
         $config['wordwrap'] = TRUE;
 
         $this->email->initialize($config);
-
         $this->email->from($this->session->userdata('email'));
         $this->email->to($py_variables['mh_mail_receiver']); 
         $this->email->cc($this->session->userdata('email'));
@@ -545,13 +576,14 @@ class mh extends Public_Controller
 
         $this->email->subject($subject);
         $this->email->message($msg);	
-        $this->email->send();
 
         if($this->email->send())
         {
+
             redirect(site_url($this->router->fetch_module().'/success'));
         }
     }
+
 // --------------------------------------------------------------------
     function success()
     {
@@ -564,5 +596,58 @@ class mh extends Public_Controller
     }
 
 // --------------------------------------------------------------------
+
+function mailtest()
+{
+
+        $py_settings = $this->settings->get_all();
+        $py_variables = $this->variables->get_all();
+
+        $config['protocol'] = $py_settings['mail_protocol'];
+
+        $this->load->library('email');
+
+        if($config['protocol'] == 'smtp')
+        {
+
+            $config['smtp_host'] = $py_settings['mail_smtp_host'];
+            $config['smtp_user'] = $py_settings['mail_smtp_user'];
+            $config['smtp_pass'] = $py_settings['mail_smtp_pass'];
+            $config['smtp_port'] = $py_settings['mail_smtp_port'];
+        }
+        $config['mailpath'] = $py_settings['mail_sendmail_path'];
+        $config['charset'] = 'utf-8';
+        $config['wordwrap'] = TRUE;
+
+        $this->email->initialize($config);
+
+        $this->email->from('tobias@mmsetc.de');
+        $this->email->to('tobias@eq3w.de'); 
+        $this->email->cc($this->session->userdata('email'));
+
+        if(isset($py_variables['mh_mail_subject']))
+        {
+            $subject = $py_variables['mh_mail_subject'];
+        }
+        else
+        {
+            $subject = '';
+
+        }
+
+        $this->email->subject($subject);
+        $this->email->message('test');	
+        if($this->email->send())
+        {
+echo "ja";
+        }
+
+
+
+
+
+}
+
+    // --------------------------------------------------------------------
     
 }
