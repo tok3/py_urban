@@ -91,7 +91,7 @@ if($this->input->post('man_dist'))
 	    <strong><?php echo $distance->text;?></strong>
 	  </p>
 	  <p>
-	    <label>Transporkosten f&uuml;r <?php echo $post_fields['weight'];?> Kg:</label> 
+<label>Transporkosten&nbspf&uuml;r&nbsp<?php echo $this->format->displCurr($post_fields['weight']);?>&nbsp;Kg:</label> 
 	    <strong><?php echo $this->format->displCurr($price->portage_eur);?> &euro;</Strong>
 	  </p>
 	</div>

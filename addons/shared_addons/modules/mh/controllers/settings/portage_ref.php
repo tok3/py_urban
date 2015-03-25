@@ -59,7 +59,7 @@ class portage_ref extends Public_Controller
 
 			foreach($portRef as $id => $value)
 			   {
-				  $updDat['portage_eur'] = $this->format->curr2Dec($value);
+                   $updDat['portage_eur'] = $this->format->curr2Dec($value,2, TRUE);
 				  $this->optTable->update($id,$updDat);
 			   }
 			redirect(current_url());

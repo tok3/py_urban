@@ -72,7 +72,8 @@ $options = array(
 ' , 63741 Nilkheim '=>'Werk II Aschaffenburg-Nilkheim',
 'Carl-von-Linde-Platz, 63743 Aschaffenburg'=>'Werk I Aschaffenburg-Schweinheim - Zentrale',
 'Hanauer Landstr. 100, 63796 Kahl'=>'Werk III Kahl',
-'Breitendieler Str. 20, 63937 Weilbach'=>'Werk IV Weilbach'
+ 'Breitendieler Str. 20, 63937 Weilbach'=>'Werk IV Weilbach',
+ 'Berzelius Str. 10, 22113 Hamburg'=>'Werk Hamburg'
                 );
 
 $fd =   isset($_POST['formdata']) ? $_POST['formdata'] : array('location_to' => '');

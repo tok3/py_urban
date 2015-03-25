@@ -218,7 +218,8 @@ class format
 
    function displCurr($_curr,$_currSign = FALSE)
    {
-	  if($_curr == '')
+//       return $_curr;
+       if($_curr == '')
 		 {
     		$_curr = 0;
 		 }
@@ -258,6 +259,11 @@ class format
 
     function curr2Dec($_curr, $_fract = 2,$math = FALSE)
    {
+
+       if($_curr == '')
+       {
+           $_curr = '0,00';
+       }
 	  $_currDec = str_replace(',','.',$_curr);
 
 	  $firstPoint = strpos($_currDec,'.');
@@ -271,7 +277,8 @@ class format
 
       if($math == TRUE)
       {
-          $retVal = $this->float($retVal);
+          //$retVal = floatval(str_replace(',', '.', str_replace('.', '', $retVal)));
+                  $retVal = $this->float($retVal);
       }
       
 	  return $retVal;

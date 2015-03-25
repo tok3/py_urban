@@ -140,7 +140,7 @@ class mh extends Public_Controller
                         $mtrFactor *= 2;
                     }
                     
-                    $postFields['weight']  = $this->format->curr2dec($postFields['weight'],2, TRUE) * $mtrFactor;  
+                    // hier vorsicht wg fomatierungn Prüffen !!! $postFields['weight']  = $this->format->curr2dec($postFields['weight'],2, TRUE) * $mtrFactor;  
                 }
 // ende lademeter oder kg
 // --------------------------------------------------------------------
@@ -162,7 +162,7 @@ class mh extends Public_Controller
                 }
                 else
                 {
-                    $postFields['weight'] = $this->format->curr2Dec($postFields['weight']);
+                    $postFields['weight'] = $this->format->curr2Dec($postFields['weight'],2,TRUE);
 
                     
                     if($this->input->post('man_dist')) // distanz wurde manuell eingegeben 
@@ -199,7 +199,7 @@ class mh extends Public_Controller
                     {
 
                     }
-// ende exakter preise
+// ende exakter preis
 
                     
                     $max_range = $this->get_limits('km'); // max entfernung 
@@ -273,15 +273,15 @@ class mh extends Public_Controller
             return FALSE;
         }
         
-        $weightPerUnit = $info['weight'] / $this->format->curr2dec($info['mnt_unit']);
+        $weightPerUnit = $this->format->float($info['weight']) / $info['mnt_unit'];
         $staffelung = array(1,10,100,300,1000,1500);
         $storage = array();
-
 
         foreach($staffelung as $key => $mnt)
         {
 
             $kg = $mnt * $weightPerUnit;
+            
             $transp = $this->portage_ref_m->getPrice(round($info['distance_km'],0, PHP_ROUND_HALF_EVEN), $kg, $info['country_from']);
             if($transp != FALSE)
             {
@@ -521,8 +521,8 @@ class mh extends Public_Controller
         }
 
 
-        $denum =  $this->format->displCurr($str);
-        $dec =  $this->format->curr2Dec($denum, 2, TRUE);
+
+        $dec =  $this->format->curr2Dec($str, 2, TRUE);
         if($dec > $this->get_limits('kg'))
         {
             $errMsg = 'Feld %s kann Maximalwert von ' . $this->get_limits('kg') . ' KG &uuml;berschritten!';
