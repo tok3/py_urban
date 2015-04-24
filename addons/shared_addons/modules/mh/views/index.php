@@ -20,7 +20,7 @@
 		<legend>Eingabe</legend>
 
 		<div class="large-6 columns">
-<!-- <?php echo $units;?> -->KG
+<?php echo $units;?>
 		  <?php echo $formfields['weight'];?>
 		</div>
 
