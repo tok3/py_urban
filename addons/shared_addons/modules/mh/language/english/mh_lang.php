@@ -76,5 +76,9 @@ $lang['mh:trans_distances'] = 'Entfernung in KM bis';
 
 
 $lang['mh:t_heading_cost_per_unit'] = array('Anzahl','KG', 'Kosten/Einh.','Kosten ges.');
+$lang['mh:t_heading_cost_per_unit_lademeter'] = array('Anzahl','Lademeter', 'Kosten/Einh.','Kosten ges.');
+
+$lang['mh:mtr'] = 'Lademeter';
+$lang['mh:kg'] = 'Kg';
 
 

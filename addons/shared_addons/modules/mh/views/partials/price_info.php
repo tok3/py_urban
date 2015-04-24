@@ -91,7 +91,7 @@ if($this->input->post('man_dist'))
 	    <strong><?php echo $distance->text;?></strong>
 	  </p>
 	  <p>
-<label>Transporkosten&nbspf&uuml;r&nbsp<?php echo $this->format->displCurr($post_fields['weight']);?>&nbsp;Kg:</label> 
+<label>Transporkosten&nbspf&uuml;r&nbsp<?php echo $this->format->displCurr($post_fields['weight']);?>&nbsp;<?php echo lang('mh:' . $this->input->post('unit'));?>:</label> 
 	    <strong><?php echo $this->format->displCurr($price->portage_eur);?> &euro;</Strong>
 	  </p>
 	</div>
@@ -115,13 +115,13 @@ if($this->input->post('man_dist'))
 	      <input type="number" min="0" name="formdata[mnt_unit]" value="<?php echo $post_fields['mnt_unit'];?>">
 	      </p>
 	    <p id="exaterPreis" class="_hide">
-	      <label>Exakter Transportpreis pro Einheit:</label> 
+                                                                                                               <label>Individuelle St&uuml;ckzahl:</label> 
 
 	      <input type="number" min="0" name="formdata[exact_unit]" value="<?php echo $post_fields['exact_unit'];?>">
 <?
                                          if(isset($exactPrice)){
             ?>
-                                         <strong><?php echo $this->format->displCurr($exactPrice);?> &euro;</Strong>
+                                         <strong class="hide"><?php echo $this->format->displCurr($exactPrice);?> &euro;</Strong>
 <?
                                          }
             ?>
