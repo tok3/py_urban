@@ -106,6 +106,8 @@ class mh extends Public_Controller
                 $this->session->set_userdata('mtrFactor',$mtrFactor);
                 $calcWeight = $mtrFactor * $calcWeight;                    
                 // hier vorsicht wg fomatierungn Prüfen !!! $postFields['weight']  = $this->format->curr2dec($postFields['weight'],2, TRUE) * $mtrFactor;  
+
+
             }
 	
             if ($this->form_validation->run() == FALSE)
@@ -144,7 +146,7 @@ class mh extends Public_Controller
 
 
                 // --------------------------------------------------------------------
-                $calcWeight = $postFields['weight'];               
+                $calcWeight = $postFields['weight'] * $this->session->userdata('mtrFactor');               
 
 /**
  * unterscheidung lademeter oder kg
@@ -181,6 +183,7 @@ class mh extends Public_Controller
                     $data['man_dist']  = form_input($conf);
                     
                     $info = $this->load->view('partials/man_price_info.php',$data,TRUE);
+
                     $man_input = $info;
                 }
                 else
@@ -243,7 +246,10 @@ class mh extends Public_Controller
                         {
                             $dist->vc_to =  $this->get_vc( $postFields['location_to'] .', ' . $postFields['country_to_long'] );
                         }
+
                         $this->session->set_userdata('calcData',$dist);
+
+
                         if(!isset($dist->post_fields['mnt_unit']))
                         {
                             $dist->post_fields['mnt_unit'] = '';
@@ -251,7 +257,10 @@ class mh extends Public_Controller
 
                         }
                         $dist->cost_per_unit = $this->costPerUnit();
+
+
                         $info = $this->load->view('partials/price_info.php',$dist,TRUE);
+
                     }
                 }
             }
@@ -314,6 +323,7 @@ class mh extends Public_Controller
         // standard preisindex nach kg 
         if($this->input->post('unit') == 'kg')
         {
+
             foreach($staffelung as $key => $mnt)
             {
 
@@ -342,7 +352,6 @@ class mh extends Public_Controller
          */
         if($this->input->post('unit') == 'mtr')
         {
-    
 
 
             foreach($staffelung as $key => $mnt)
@@ -350,8 +359,9 @@ class mh extends Public_Controller
 
             
                 $kg = ($mnt * $weightPerUnit) * $this->session->userdata('mtrFactor');
-            
+
                 $transp = $this->portage_ref_m->getPrice(round($info['distance_km'],0, PHP_ROUND_HALF_EVEN), $kg, $info['country_from']);
+                
                 if($transp != FALSE)
                 {
 
@@ -754,7 +764,7 @@ class mh extends Public_Controller
         $this->email->message('test');	
         if($this->email->send())
         {
-            echo "ja";
+
         }
 
 
