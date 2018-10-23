@@ -2700,6 +2700,7 @@ class Googlemaps
         }
 
 
+
         $json_result = json_decode($this->file_get_contents_curl($url));
 
         return $json_result;
