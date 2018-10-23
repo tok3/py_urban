@@ -2636,13 +2636,7 @@ class Googlemaps
 
         $data = json_decode($data);
 
-        echo "<pre>";
-        print_r($data_location);
-        echo "</pre>";
-        echo "<pre>";
-        print_r($data);
-        echo "</pre>";
-        die();
+
         if ($data->status == "OK")
         {
             $lat = $data->results[0]->geometry->location->lat;
@@ -2695,7 +2689,15 @@ class Googlemaps
         $retVal['latLong_start'] = $latLongA[0] . ',' . $latLongA[1];
         $retVal['latLong_dest'] = $latLongB[0] . ',' . $latLongB[1];
 
-        $url = 'http://maps.googleapis.com/maps/api/distancematrix/json?origins=' . urlencode($retVal['latLong_start']) . '&destinations=' . urlencode($retVal['latLong_dest']) . '&mode=driving&language=de-DE&sensor=false';
+        if ($this->https == TRUE)
+        {
+            $url = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' . urlencode($retVal['latLong_start']) . '&destinations=' . urlencode($retVal['latLong_dest']) . '&mode=driving&language=de-DE&sensor=false&key=' . $this->apiKey;
+        }
+        else
+        {
+            $url = 'http://maps.googleapis.com/maps/api/distancematrix/json?origins=' . urlencode($retVal['latLong_start']) . '&destinations=' . urlencode($retVal['latLong_dest']) . '&mode=driving&language=de-DE&sensor=false&key=' . $this->apiKey;
+
+        }
 
 
         $json_result = json_decode($this->file_get_contents_curl($url));
