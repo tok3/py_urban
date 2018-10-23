@@ -33,21 +33,21 @@
 
 // Development
 $db[PYRO_DEVELOPMENT] = array(
-	'hostname'		=> 	'127.0.0.1',
-	'username'		=> 	'root',
-	'password'		=> 	'root',
-	'database'		=> 	'urban',
-	'dbdriver' 		=> 	'mysqli',
-	'dbprefix' 		=>	'',
-	'pconnect' 		=>	FALSE,
-	'db_debug' 		=>	TRUE,
-	'cache_on' 		=>	FALSE,
-	'char_set' 		=>	'utf8',
-	'dbcollat' 		=>	'utf8_unicode_ci',
-	'port' 	 		=>	'3306',
+    'hostname'		=> 	'mysql5.mmsetc.de',
+    'username'		=> 	'db130660_10',
+    'password'		=> 	'22d_yczguumT',
+    'database'		=> 	'db130660_10',
+    'dbdriver' 		=> 	'mysqli',
+    'dbprefix' 		=>	'',
+    'pconnect' 		=>	FALSE,
+    'db_debug' 		=>	TRUE,
+    'cache_on' 		=>	FALSE,
+    'char_set' 		=>	'utf8',
+    'dbcollat' 		=>	'utf8_unicode_ci',
+    'port' 	 		=>	'3306',
 
-	// 'Tough love': Forces strict mode to test your app for best compatibility
-	'stricton' 		=> TRUE,
+    // 'Tough love': Forces strict mode to test your app for best compatibility
+    'stricton' 		=> TRUE,
 );
 
 // Staging
@@ -70,24 +70,24 @@ $db[PYRO_STAGING] = array(
 
 // Production
 $db[PYRO_PRODUCTION] = array(
-	'hostname'		=> 	'localhost',
-	'username'		=> 	'root',
-	'password'		=> 	'root',
-	'database'		=> 	'urban',
-	'dbdriver' 		=> 	'mysqli',
-	'pconnect' 		=>	FALSE,
-	'db_debug' 		=>	FALSE,
-	'cache_on' 		=>	FALSE,
-	'char_set' 		=>	'utf8',
-	'dbcollat' 		=>	'utf8_unicode_ci',
-	'port' 	 		=>	'3306',
+    'hostname'		=> 	'mysql5.mmsetc.de',
+    'username'		=> 	'db130660_10',
+    'password'		=> 	'22d_yczguumT',
+    'database'		=> 	'db130660_10',
+    'dbdriver' 		=> 	'mysqli',
+    'pconnect' 		=>	FALSE,
+    'db_debug' 		=>	FALSE,
+    'cache_on' 		=>	FALSE,
+    'char_set' 		=>	'utf8',
+    'dbcollat' 		=>	'utf8_unicode_ci',
+    'port' 	 		=>	'3306',
 );
 
 
 // Check the configuration group in use exists
 if ( ! array_key_exists(ENVIRONMENT, $db))
 {
-	show_error(sprintf(lang('error_invalid_db_group'), ENVIRONMENT));
+    show_error(sprintf(lang('error_invalid_db_group'), ENVIRONMENT));
 }
 
 // Assign the group to be used
