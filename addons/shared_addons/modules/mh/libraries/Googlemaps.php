@@ -2271,7 +2271,7 @@ class Googlemaps {
 		$retVal['latLong_start'] = $latLongA[0] . ',' . $latLongA[1];
 		$retVal['latLong_dest'] = $latLongB[0] . ',' . $latLongB[1];
 
-		$url = 'http://maps.googleapis.com/maps/api/distancematrix/json?origins='.urlencode($retVal['latLong_start']).'&destinations='.urlencode($retVal['latLong_dest']).'&mode=driving&language=de-DE&sensor=false';
+		$url = 'http://maps.googleapis.com/maps/api/distancematrix/json?origins='.urlencode($retVal['latLong_start']).'&destinations='.urlencode($retVal['latLong_dest']).'&mode=driving&language=de-DE&sensor=false&key='.$this->apiKey;
 
         echo "<pre>";
         print_r($url);
