@@ -2699,11 +2699,7 @@ class Googlemaps
 
         }
 
-        echo "<pre>";
-        print_r($url);
-        echo "</pre>";
 
-        die();
 
         $json_result = json_decode($this->file_get_contents_curl($url));
 
