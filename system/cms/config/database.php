@@ -33,7 +33,7 @@
 
 // Development
 $db[PYRO_DEVELOPMENT] = array(
-	'hostname'		=> 	'localhost',
+	'hostname'		=> 	'127.0.0.1',
 	'username'		=> 	'root',
 	'password'		=> 	'root',
 	'database'		=> 	'urban',

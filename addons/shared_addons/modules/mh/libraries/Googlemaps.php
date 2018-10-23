@@ -2272,7 +2272,10 @@ class Googlemaps {
 		$retVal['latLong_dest'] = $latLongB[0] . ',' . $latLongB[1];
 
 		$url = 'http://maps.googleapis.com/maps/api/distancematrix/json?origins='.urlencode($retVal['latLong_start']).'&destinations='.urlencode($retVal['latLong_dest']).'&mode=driving&language=de-DE&sensor=false';
-
+        echo "<pre>";
+        print_r($url);
+        echo "</pre>";
+        die();
 		$json_result = json_decode($this->file_get_contents_curl($url));
 
 		return	$json_result;
