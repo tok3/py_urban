@@ -2215,12 +2215,14 @@ class Googlemaps {
 		}
 
 		if ($this->https) { $data_location = 'https://'; }else{ $data_location = 'http://'; }
-		$data_location .= "maps.google.com/maps/api/geocode/json?address=".urlencode(utf8_encode($address))."&sensor=".$this->sensor;
+		$data_location .= "maps.google.com/maps/api/geocode/json?address=".urlencode(utf8_encode($address))."&sensor=".$this->sensor.'&key='.$this->apiKey;
 		if ($this->region!="" && strlen($this->region)==2) { $data_location .= "&region=".$this->region; }
 		$data = $this->file_get_contents_curl($data_location);
 
 		$data = json_decode($data);
 
+
+		die();
 		if ($data->status=="OK")
 			{
 				$lat = $data->results[0]->geometry->location->lat;
@@ -2271,12 +2273,9 @@ class Googlemaps {
 		$retVal['latLong_start'] = $latLongA[0] . ',' . $latLongA[1];
 		$retVal['latLong_dest'] = $latLongB[0] . ',' . $latLongB[1];
 
-		$url = 'http://maps.googleapis.com/maps/api/distancematrix/json?origins='.urlencode($retVal['latLong_start']).'&destinations='.urlencode($retVal['latLong_dest']).'&mode=driving&language=de-DE&sensor=false&key='.$this->apiKey;
+		$url = 'http://maps.googleapis.com/maps/api/distancematrix/json?origins='.urlencode($retVal['latLong_start']).'&destinations='.urlencode($retVal['latLong_dest']).'&mode=driving&language=de-DE&sensor=false';
 
-        echo "<pre>";
-        print_r($url);
-        echo "</pre>";
-        die();
+
 		$json_result = json_decode($this->file_get_contents_curl($url));
 
 		return	$json_result;
