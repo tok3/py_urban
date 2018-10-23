@@ -2221,7 +2221,12 @@ class Googlemaps {
 
 		$data = json_decode($data);
 
-
+        echo "<pre>";
+        print_r($data_location);
+        echo "</pre>";
+		echo "<pre>";
+        print_r($data);
+        echo "</pre>";
 		die();
 		if ($data->status=="OK")
 			{
